@@ -51,7 +51,7 @@ test("real MCP to owner UI to second AI, controls and blind lab", async ({
     return r.structuredContent ?? JSON.parse(r.content[0].text);
   };
   const discovered = mcp("__list_tools__");
-  expect(discovered.tools).toHaveLength(9);
+  expect(discovered.tools).toHaveLength(10);
   expect(
     discovered.tools.find((t: any) => t.name === "read_context").annotations
       .readOnlyHint,

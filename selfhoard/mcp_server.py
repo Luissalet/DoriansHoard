@@ -63,6 +63,16 @@ def make_server(url: str, token: str):
         return await call('read_context', {'query': query, 'offset': offset})
 
     @server.tool(annotations=read)
+    async def read_reflection(query: str = '', offset: int = 0) -> dict:
+        """Read the authorized portrait and reviewed memories, criteria and expression examples.
+
+        Requires reflection.read, separate from context.read. No visitor conversations or blind
+        labels. Re-read before personalization; replace cached content when revision changes.
+        Respect original attribution and when catchphrases do not fit. Do not invent biography.
+        """
+        return await call('read_reflection', {'query':query,'offset':offset})
+
+    @server.tool(annotations=read)
     async def read_evidence(id: str) -> dict:
         """Read a source by source_id. Requires evidence.read; may expose unreviewed text."""
         return await call('read_evidence', {'id': id})

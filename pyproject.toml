@@ -1,9 +1,9 @@
 [project]
 name = "selfhoard"
 version = "0.1.0"
-description = "Local evidence-first personal archive"
+description = "Local evidence-backed conversational reflection of a person"
 requires-python = ">=3.11"
-dependencies = ["fastapi==0.141.1", "uvicorn==0.52.4", "mcp==1.30.0", "httpx==0.28.1"]
+dependencies = ["fastapi==0.141.1", "uvicorn==0.52.4", "mcp==1.30.0", "httpx==0.28.1", "pywin32==312; sys_platform == 'win32'"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

@@ -44,6 +44,13 @@ type Hub = {
 };
 const scopeCopy: [string, string, string, string, string][] = [
   [
+    "reflection.read",
+    "Consultar el reflejo",
+    "Read the reflection",
+    "Retrato y recuerdos revisados, incluidas expresiones y criterios. No concede acceso a conversaciones.",
+    "Portrait and reviewed memories, including expression and criteria. Does not grant conversation access.",
+  ],
+  [
     "context.read",
     "Consultar contexto",
     "Read context",

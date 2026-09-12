@@ -4,6 +4,8 @@ MCP: las IA solo consultan con permisos y aportan a una bandeja. Nunca confirmes
 
 El proyecto parte de documentos de investigación, que son especificación y fuentes, no biografía del propietario. Sigue las instrucciones directas del usuario y conserva su idioma y alcance.
 
+El centro del producto es el reflejo conversacional de una persona: recuerdos, gustos, decisiones y expresiones contextuales. `reflection.read` es independiente de `context.read`; no amplíes automáticamente conexiones existentes. No conviertas diálogo generado en biografía. `docs/REFLECTION.md` distingue los límites del núcleo aprendido y de los proveedores; `docs/IMPLEMENTATION_PLAN.md` conserva el trabajo pendiente del plan general.
+
 - Mantén el núcleo independiente de la interfaz y de proveedores.
 - Nunca conviertas texto atribuido, ficticio o producido por asistentes en declaraciones propias.
 - Las citas propias deben ser literales. Las interpretaciones mantienen su tipo incluso confirmadas.

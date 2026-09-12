@@ -1,5 +1,17 @@
 # Validación de la primera versión
 
+## Ampliación del reflejo y formas de expresión
+
+Ejecutada el 12 de septiembre de 2026:
+
+- **61 pruebas Python**, todas pasan. Nuevos casos de fragmentos literales, autoría atribuida, revisión antes de uso, aislamiento por destinatario, retirada de fuente/ficha/perfil y purga de contexto/historial, citas inventadas, incertidumbre, cambios de destino tras previsualizar, límites de proveedor, aprendizaje condicionado a ejemplos revisados, sello ciego y exclusión de etiquetas reservadas. La prueba final comprueba que previsualizar el borrado cuenta fichas/respuestas derivadas y deshace la simulación sin borrar datos. Siguen los dos avisos de deprecación descritos abajo.
+- **5 recorridos Edge**, todos pasan en la última ejecución conjunta (42,8 s). Se descubre el catálogo de diez herramientas MCP. El nuevo recorrido guarda y revisa una expresión atribuida, muestra autor/frecuencia/fragmentos antes de confirmar, revisa contexto exacto y recibe respuesta mediante HTTP real desde un proveedor local de prueba. Consulta esa expresión por MCP stdio, la retira desde UI, verifica que desaparece y cambia la revisión, revoca el acceso y verifica denegación.
+- **Ollama real** con `qwen3-coder:30b`, personaje y fichas exclusivamente sintéticos: devuelve una predicción, dos citas válidas e incertidumbre, con 1175 tokens de entrada y 211 de salida comunicados por el servicio. No es una medición de fidelidad personal. Resultado local ignorado: `.impeccable/review/local-reflection-result.json`; script reproducible `scripts/smoke_reflection_local.py`.
+- Compilación TypeScript/Vite pasa. Detector Impeccable devuelve `[]`. Capturas de conversación y expresión en escritorio ES 1440 y móvil EN 390. Revisor independiente pidió mostrar toda la información guardada antes de confirmar; una tanda lo resolvió y el veredicto fue `ship` para esa corrección.
+- Aplicación normal actualizada en 8741 y formulario de expresión verificado con CUA/MCP. Archivo real: cero fuentes, cero afirmaciones y cero fichas; conserva una aportación IA pendiente y la conexión anterior. Ningún ejemplo sintético se añadió allí. Los permisos existentes no se ampliaron.
+
+Pendientes del plan general: lectores de legado, autenticación/cifrado integral, copia completa protegida, importadores, interfaz de evaluación aprendida y baselines adicionales. Los servicios OpenAI/Anthropic no se probaron con credenciales reales. Este avance no debe presentarse como desarrollo completo del plan.
+
 ## Ampliación de conexiones IA y MCP
 
 Ejecutada el 12 de septiembre de 2026:

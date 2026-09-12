@@ -15,6 +15,8 @@ La disponibilidad de las herramientas en una conversación ya abierta depende de
 
 ## Permisos y herramientas
 
+El catálogo actual añade `read_reflection`, que requiere el permiso independiente `reflection.read`. Devuelve el retrato autorizado y las fichas revisadas, incluidos criterios y expresiones con autoría/contexto. No devuelve conversaciones ni etiquetas reservadas de evaluación. Las conexiones creadas antes de esta ampliación conservan sus permisos. Refresca esta herramienta antes de personalizar y reemplaza el contexto cuando cambie su revisión.
+
 | Permiso | Herramientas | Qué permite |
 | --- | --- | --- |
 | Identidad de la conexión | `connection_status` | Archivo fijo, nombre, caducidad, permisos y reglas. También exige conexión habilitada y válida. |

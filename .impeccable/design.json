@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-09-12T19:54:57.621098+00:00",
+  "generatedAt": "2026-09-12T21:02:45.184088+00:00",
   "title": "Design System: Self Hoard",
   "extensions": {
     "colorMeta": {
@@ -583,6 +583,14 @@
       {
         "name": "ai-stacked-max",
         "value": "900px"
+      },
+      {
+        "name": "reflection-history-stacked-max",
+        "value": "1100px"
+      },
+      {
+        "name": "reflection-fields-stacked-max",
+        "value": "600px"
       }
     ]
   },
@@ -681,18 +689,33 @@
       "description": "Flat inbox article. The amber tag denotes category, while the selected filter denotes review state. All preview content is synthetic.",
       "html": "<div class=\"ds-ai-filters\" aria-label=\"Update status\"><button aria-pressed=\"true\">To review</button><button aria-pressed=\"false\">Accepted</button><button aria-pressed=\"false\">Rejected</button></div><article class=\"ds-ai-report\"><div class=\"ds-ai-meta\"><span>Synthetic AI sender</span><time datetime=\"2026-09-12\">12/09/2026</time></div><h3>Example contribution</h3><span class=\"ds-ai-kind\">AI inference</span><p class=\"ds-ai-original\">Synthetic example, not a statement about the owner.</p><details><summary>View origin</summary><p class=\"ds-ai-original\">Synthetic source for this component preview.</p></details><div class=\"ds-ai-actions\"><button class=\"ds-ai-accept\">Accept report</button><button class=\"ds-ai-reject\">Reject</button></div></article>",
       "css": ".ds-ai-filters{font-family:'Manrope Variable',sans-serif;color:var(--ink,#24372f);display:flex;gap:6px;border-bottom:1px solid var(--line,#dde3da);padding:6px 0 12px}.ds-ai-filters button{font-family:'Manrope Variable',sans-serif;color:var(--ink,#24372f);border:0;background:none;border-radius:6px;padding:8px 10px;font-size:12px;cursor:pointer;transition:background-color 150ms,color 150ms}.ds-ai-filters button[aria-pressed=true]{background:var(--soft,#e6eee4);color:var(--accent,#34634a);font-weight:650}.ds-ai-filters button:hover{background:#e8ede5}.ds-ai-report{font-family:'Manrope Variable',sans-serif;color:var(--ink,#24372f);border-bottom:1px solid var(--line,#dde3da);padding:24px 0;overflow-wrap:anywhere}.ds-ai-meta{display:flex;justify-content:space-between;gap:16px;color:var(--muted,#627168);font-size:12px}.ds-ai-report h3{margin:12px 0;font-size:18px;font-weight:650}.ds-ai-kind{display:inline-flex;font-size:10px;line-height:1.6;padding:3px 8px;border-radius:4px;background:#f0ebd9;color:#786326;font-weight:600}.ds-ai-original{white-space:pre-wrap;font-size:14px;line-height:1.65;max-width:70ch;margin:0}.ds-ai-report summary{cursor:pointer;font-size:13px;text-underline-offset:4px}.ds-ai-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:20px}.ds-ai-actions button{font-family:'Manrope Variable',sans-serif;color:var(--ink,#24372f);border-radius:7px;min-height:36px;display:inline-flex;align-items:center;justify-content:center;gap:9px;padding:9px 13px;font-weight:650;font-size:11px;cursor:pointer;transition:background-color 150ms,color 150ms}.ds-ai-accept{border:0;background:var(--accent,#34634a);color:#fff!important}.ds-ai-accept:hover:not(:disabled){background:#244e38}.ds-ai-reject{background:#fff;border:1px solid #cfd8cb}.ds-ai-reject:hover:not(:disabled){background:#f1f5ee}.ds-ai-actions button:disabled{opacity:.5;cursor:not-allowed}.ds-ai-filters button:focus-visible,.ds-ai-actions button:focus-visible,.ds-ai-report summary:focus-visible{outline:3px solid #629056;outline-offset:3px}@media(prefers-reduced-motion:reduce){.ds-ai-filters button,.ds-ai-actions button{transition:none}}"
+    },
+    {
+      "name": "Expression review disclosure",
+      "kind": "custom",
+      "description": "Saved expression entry with native disclosure before review actions. Labels are English; the synthetic Spanish source and free-text metadata stay unchanged.",
+      "html": "<article class=\"ds-expression\"><span class=\"ds-expression-kind\">Expression &middot; Attributed text</span><h3>Synthetic expression example</h3><p class=\"ds-expression-original\">Bueno, vamos por partes.</p><dl class=\"ds-expression-meta\"><div><dt>With whom</dt><dd>Amigos</dd></div><div><dt>When</dt><dd>Al comparar planes</dd></div><div><dt>Avoid when</dt><dd>Durante el duelo</dd></div></dl><details class=\"ds-expression-details\" open><summary>Review author and saved details</summary><dl class=\"ds-expression-meta\"><div><dt>Author</dt><dd>Familiar sintético</dd></div><div><dt>Period or approximate date</dt><dd>Unspecified</dd></div><div><dt>Context or topic</dt><dd>Unspecified</dd></div><div><dt>Expression feature</dt><dd>Catchphrase</dd></div><div><dt>Observed frequency</dt><dd>Sometimes</dd></div><div><dt>Example language</dt><dd>Español</dd></div></dl><strong>Verbatim excerpts</strong><blockquote>Bueno, vamos por partes.</blockquote></details><button class=\"ds-expression-review\">Confirm for the reflection</button></article>",
+      "css": ".ds-expression{font-family:'Manrope Variable',sans-serif;color:var(--ink,#24372f);font-size:14px;font-weight:450;padding:26px 0;border-top:1px solid var(--line,#dde3da)}.ds-expression-kind{font-size:12px;color:var(--muted,#627168)}.ds-expression h3{font-size:15px;font-weight:650;margin:7px 0 14px;overflow-wrap:anywhere}.ds-expression-original{white-space:pre-wrap;overflow-wrap:anywhere;line-height:1.85;margin:18px 0;max-width:75ch}.ds-expression-meta{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin:20px 0}.ds-expression-meta dt{font-size:12px;color:var(--muted,#627168)}.ds-expression-meta dd{margin:5px 0 0;overflow-wrap:anywhere}.ds-expression-details{margin:14px 0}.ds-expression-details summary{cursor:pointer;color:var(--accent,#34634a);font-weight:600;line-height:1.7}.ds-expression-details summary:focus-visible{outline:3px solid #629056;outline-offset:3px}.ds-expression blockquote{margin:18px 0;padding:16px;background:var(--soft,#e6eee4);overflow-wrap:anywhere}.ds-expression-review{font-family:'Manrope Variable',sans-serif;color:var(--ink,#24372f);font-size:14px;font-weight:450;background:var(--accent,#34634a);color:#fff;border:0;border-radius:7px;min-height:36px;padding:9px 13px;font-size:11px;font-weight:650;cursor:pointer;transition:background-color 150ms,color 150ms}.ds-expression-review:hover:not(:disabled){background:#244e38}.ds-expression-review:focus-visible{outline:3px solid #629056;outline-offset:3px}.ds-expression-review:disabled{opacity:.5;cursor:not-allowed}@media(max-width:600px){.ds-expression-meta{grid-template-columns:1fr}}@media(prefers-reduced-motion:reduce){.ds-expression-review{transition:none}}"
+    },
+    {
+      "name": "Reflection context preview",
+      "kind": "custom",
+      "description": "Review destination, evidence count, cost ceiling, exact payload and instructions before a separate send action. This preview contains synthetic data only.",
+      "html": "<section class=\"ds-reflection-preview\" aria-label=\"Review the message\"><h3>What the model will receive</h3><p><strong>Synthetic local model</strong> &middot; On this device</p><p>1 selected memory or evidence item. Estimated cost ceiling: $0.0000</p><details><summary>See the exact content and instructions</summary><pre>{\"question\":\"Synthetic example\",\"evidence\":[\"Bueno, vamos por partes.\"]}</pre><pre>Synthetic instruction preview; represent uncertainty and preserve attribution.</pre></details><div class=\"ds-reflection-actions\"><button class=\"ds-reflection-send\">Send and talk</button><button class=\"ds-reflection-cancel\">Cancel message</button></div></section>",
+      "css": ".ds-reflection-preview{font-family:'Manrope Variable',sans-serif;color:var(--ink,#24372f);font-size:14px;font-weight:450;margin:24px 0;padding:24px;background:var(--soft,#e6eee4);border-radius:var(--radius,12px)}.ds-reflection-preview h3{font-size:15px;font-weight:650;margin:0}.ds-reflection-preview p{margin:12px 0 0;line-height:1.7}.ds-reflection-preview details{margin:14px 0}.ds-reflection-preview summary{cursor:pointer;color:var(--accent,#34634a);font-weight:600;line-height:1.7}.ds-reflection-preview summary:focus-visible{outline:3px solid #629056;outline-offset:3px}.ds-reflection-preview pre{white-space:pre-wrap;overflow-wrap:anywhere;max-height:320px;overflow:auto;font-size:12px;background:var(--surface,#fff);padding:16px}.ds-reflection-actions{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin-top:24px}.ds-reflection-actions button{font-family:'Manrope Variable',sans-serif;color:var(--ink,#24372f);font-size:14px;font-weight:450;border-radius:7px;min-height:43px;display:inline-flex;align-items:center;justify-content:center;gap:9px;padding:11px 17px;font-weight:650;font-size:12px;cursor:pointer;transition:background-color 150ms,color 150ms}.ds-reflection-send{background:var(--accent,#34634a);color:#fff!important;border:0}.ds-reflection-send:hover:not(:disabled){background:#244e38}.ds-reflection-cancel{background:var(--surface,#fff);border:1px solid #cfd8cb}.ds-reflection-cancel:hover:not(:disabled){background:#f1f5ee}.ds-reflection-actions button:focus-visible{outline:3px solid #629056;outline-offset:3px}.ds-reflection-actions button:disabled{opacity:.5;cursor:not-allowed}@media(max-width:600px){.ds-reflection-preview{padding:20px 16px}.ds-reflection-actions{align-items:stretch}}@media(prefers-reduced-motion:reduce){.ds-reflection-actions button{transition:none}}"
     }
   ],
   "narrative": {
     "northStar": "Escritorio de lectura editorial",
-    "overview": "Una superficie clara para leer fuentes y revisar afirmaciones con calma. El verde apagado organiza acciones, selección y navegación; los márgenes amplios y las líneas finas separan información sin convertir cada fila en una tarjeta. La identidad se expresa con Manrope, una marca tipográfica compacta y pequeños iconos de trazo.\n\nEste documento registra la interfaz construida, no una propuesta futura. La dirección procede de `docs/first-surface.md` y su extensión Operate en `docs/ai-surface.md`; los valores se extrajeron de `frontend/src/style.css` y los comportamientos de `App.tsx`, `Lab.tsx`, `Neuro.tsx`, `Agents.tsx` y `shared.tsx`. Se contrastó la composición con las seis capturas de archivo, laboratorio y neurociencia y las capturas `agents-desktop-es.png` y `agents-mobile-en.png` en `.impeccable/review/`. El marco permanece estable entre las seis secciones implementadas. El idioma de la interfaz cambia entre español e inglés sin traducir las fuentes ni las aportaciones originales.",
+    "overview": "Una superficie clara para conversar con una representación, leer sus fuentes y revisar recuerdos con calma. El verde apagado organiza acciones, selección y navegación; los márgenes amplios y las líneas finas separan información sin convertir cada fila en una tarjeta. La identidad se expresa con Manrope, una marca tipográfica compacta y pequeños iconos de trazo. La conversación extiende esta lectura editorial con respuestas de ancho contenido, evidencia desplegable y revisión del envío.\n\nEste documento registra la interfaz construida, no una propuesta futura. La dirección procede de `docs/first-surface.md` y sus extensiones Operate en `docs/ai-surface.md` y `docs/reflection-surface.md`; los valores se extrajeron de `frontend/src/style.css` y `reflection.css`, y los comportamientos de `App.tsx`, `Lab.tsx`, `Neuro.tsx`, `Agents.tsx`, `Reflection.tsx`, `ModelSettings.tsx` y `shared.tsx`. Se contrastó la composición con las capturas de archivo, laboratorio, neurociencia, conexiones IA y las capturas `reflection-expression-mobile-en.png` y `reflection-dialogue-desktop-es.png` en `.impeccable/review/`. El marco permanece estable entre los siete destinos implementados; El reflejo es el destino inicial. El idioma de la interfaz cambia entre español e inglés sin traducir las fuentes, aportaciones, recuerdos ni metadatos originales.",
     "keyCharacteristics": [
       "Fondo de lectura claro, superficies blancas y divisores suaves.",
       "Jerarquía tipográfica sin una segunda familia decorativa.",
       "Afirmación, tipo, estado y procedencia visibles como información distinta.",
       "Escenas esquemáticas con etiquetas explícitas de demostración o ilustración.",
       "Navegación estable en escritorio y desplazable horizontalmente en móvil.",
-      "Bandeja de aportaciones IA como superficie principal, con permisos y conexiones en segundo plano."
+      "Bandeja de aportaciones IA como superficie principal, con permisos y conexiones en segundo plano.",
+      "Conversación de lectura sostenida, con contexto revisable antes de enviar y procedencia después de responder."
     ],
     "rules": [
       {
@@ -713,7 +736,9 @@
       "**Do** mantener visibles las etiquetas de demo y de esquema ilustrativo junto a sus superficies.",
       "**Do** aplicar movimiento reducido tanto a CSS como al desplazamiento programático.",
       "**Do** presentar autor, categoría y procedencia antes de aceptar una aportación IA, y conservarlos después.",
-      "**Do** mantener la divulgación sobre el proveedor junto al estado de acceso y la explicación de cada permiso junto a su checkbox."
+      "**Do** mantener la divulgación sobre el proveedor junto al estado de acceso y la explicación de cada permiso junto a su checkbox.",
+      "**Do** permitir revisar autor, contexto y fragmentos guardados antes de confirmar una ficha de expresión.",
+      "**Do** presentar el destino y contenido exacto antes del envío, y distinguir respuesta generada de evidencia documentada."
     ],
     "donts": [
       "**Don't** introducir sombras en las filas y paneles del archivo.",
@@ -721,7 +746,8 @@
       "**Don't** convertir una etiqueta de revisión en un indicador de exactitud personal o científica.",
       "**Don't** presentar la escena manual como un agente aprendido del archivo.",
       "**Don't** usar color o animación como única explicación de selección, revisión o resultado.",
-      "**Don't** presentar una aportación IA aceptada como declaración original del propietario ni prometer que revocar borra copias externas."
+      "**Don't** presentar una aportación IA aceptada como declaración original del propietario ni prometer que revocar borra copias externas.",
+      "**Don't** tratar Legado como acceso familiar disponible ni mostrar una métrica de fidelidad no validada."
     ]
   }
 }

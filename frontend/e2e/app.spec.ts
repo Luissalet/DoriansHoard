@@ -8,6 +8,7 @@ test("personal archive lifecycle and both languages", async ({ page }) => {
   const faults: string[] = [];
   page.on("pageerror", (e) => faults.push(e.message));
   await page.goto("/");
+  await page.getByRole("button", { name: "Mi archivo", exact: true }).click();
   await expect(
     page.getByRole("heading", {
       name: "Una memoria que puedes entender y corregir.",
@@ -92,6 +93,7 @@ test("blind activity demo and review captures on desktop and mobile", async ({
   page.on("request", (r) => requests.push(r.url()));
   await page.goto("/");
   await page.getByRole("button", { name: /Explorar una demo/ }).click();
+  await page.getByRole("button", { name: "Mi archivo", exact: true }).click();
   await expect(
     page.getByText("Espacio de demostración.", { exact: false }),
   ).toBeVisible();
