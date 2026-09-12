@@ -63,6 +63,78 @@ export function Status({ state }: { state: string }) {
   return <span className={"status " + state}>{t(...label)}</span>;
 }
 export const errors: Record<string, [string, string]> = {
+  invalid_fields: [
+    "Revisa los campos. Los fragmentos de expresión deben aparecer literalmente en el texto original (máximo ocho).",
+    "Check the fields. Expression excerpts must appear verbatim in the original text (up to eight).",
+  ],
+  reflection_consent_required: [
+    "Guarda primero el retrato con autorización para conversar.",
+    "Save the portrait with authorization to talk first.",
+  ],
+  provider_required: [
+    "Conecta y selecciona un modelo para conversar.",
+    "Connect and select a model to talk.",
+  ],
+  provider_changed_preview_again: [
+    "La conexión ha cambiado. Revisa el envío de nuevo.",
+    "The connection changed. Review the message again.",
+  ],
+  provider_budget_exceeded: [
+    "Se alcanzó el límite diario de llamadas o coste. Revisa la configuración del modelo.",
+    "The daily call or cost limit was reached. Review the model settings.",
+  ],
+  provider_invalid_response: [
+    "El modelo no devolvió una respuesta válida. Comprueba el servicio y prepara otro envío.",
+    "The model did not return a valid answer. Check the service and prepare another message.",
+  ],
+  provider_call_failed: [
+    "El servicio rechazó la llamada. Comprueba el modelo y sus credenciales.",
+    "The service rejected the call. Check the model and credentials.",
+  ],
+  unsupported_model_claim: [
+    "La respuesta no tenía referencias válidas. No se ha guardado; puedes preparar otro envío.",
+    "The answer lacked valid references. It was not saved; you can prepare another message.",
+  ],
+  prediction_uncertainty_required: [
+    "La predicción omitió sus límites. Prepara otro envío.",
+    "The prediction omitted its limitations. Prepare another message.",
+  ],
+  context_expired: [
+    "Los recuerdos o permisos han cambiado. Revisa el envío de nuevo.",
+    "Memories or permissions changed. Review the message again.",
+  ],
+  already_sent: [
+    "Este envío ya se utilizó. Revisa uno nuevo antes de continuar.",
+    "This message was already used. Review a new one to continue.",
+  ],
+  context_budget_exceeded: [
+    "El contexto supera el límite del modelo. Prueba una conversación nueva o una pregunta más concreta.",
+    "The context exceeds the model limit. Try a new conversation or a more specific question.",
+  ],
+  local_only: [
+    "El modo local bloquea esta llamada externa. Revisa la política en Modelo.",
+    "Local-only mode blocks this external call. Review the policy in Model.",
+  ],
+  provider_disabled: [
+    "Este modelo está desactivado. Elige otra conexión.",
+    "This model is disabled. Choose another connection.",
+  ],
+  provider_destination_denied: [
+    "Usa una dirección local de confianza o la dirección oficial del proveedor elegido.",
+    "Use a trusted local address or the selected provider’s official address.",
+  ],
+  provider_price_required: [
+    "Indica la tarifa máxima de tokens y cuándo la comprobaste.",
+    "Enter the maximum token rate and when you verified it.",
+  ],
+  provider_price_stale: [
+    "Comprueba la tarifa del proveedor: la fecha debe estar dentro de los últimos 30 días.",
+    "Verify the provider rate: its date must be within the last 30 days.",
+  ],
+  provider_key_required: [
+    "Introduce la clave del proveedor para guardar esta conexión.",
+    "Enter the provider key to save this connection.",
+  ],
   terminal_update: [
     "Esta aportación ya se rechazó. La IA deberá enviar una nueva para revisarla.",
     "This report was rejected. The AI must submit a new one for review.",

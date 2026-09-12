@@ -2,7 +2,7 @@
 
 ## Ampliación MCP
 
-`mcp_server.py` publica nueve herramientas stdio y no abre bases directamente. Reenvía llamadas con un token a `/agent/call` en loopback, sin proxies de entorno ni redirecciones. `agents.py` comprueba permisos, archivo fijado a la credencial, pausa, caducidad y revocación en cada llamada. Mantiene el bloqueo de controles durante la autorización/ejecución; las rutas de propietario rechazan peticiones que incluyan un token de agente. Sigue sin existir autenticación frente a otro proceso con acceso completo a la cuenta de Windows.
+`mcp_server.py` publica diez herramientas stdio y no abre bases directamente. Reenvía llamadas con un token a `/agent/call` en loopback, sin proxies de entorno ni redirecciones. `agents.py` comprueba permisos, archivo fijado a la credencial, pausa, caducidad y revocación en cada llamada. Mantiene el bloqueo de controles durante la autorización/ejecución; las rutas de propietario rechazan peticiones que incluyan un token de agente. Sigue sin existir autenticación frente a otro proceso con acceso completo a la cuenta de Windows.
 
 `read_context` compila declaraciones propias confirmadas vigentes con dependencias válidas y, por separado, aportaciones de IA aceptadas. El original y la inferencia no cambian de tipo por aceptación. `get_changes` calcula una revisión del contexto compartible actual, incluido el efecto de retiradas y borrados. No guarda copias de texto eliminado en su registro. La procedencia comunicada por una IA no se equipara a una fuente original del propietario.
 

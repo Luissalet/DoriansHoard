@@ -1,12 +1,16 @@
 from pathlib import Path
 import secrets
 from fastapi import FastAPI, Request
+from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse, Response
 from fastapi.staticfiles import StaticFiles
 from .models import Archive, ClaimInput, CorrectionInput, QueryInput, ReviewInput, SourceInput
 from .store import DomainError, Store
 from .lab import Lab, SCENARIOS, TrialInput, AnswerInput
 from .agents import AgentHub, GrantInput, SwitchInput, UpdateReview
+from .decisions import Decisions, DecisionVault
+from .providers import ProviderManager
+from .reflection_api import install as install_reflection
 from .models import StrictModel
 from pydantic import Field
 
@@ -18,7 +22,12 @@ class AgentCall(StrictModel):
 
 def create_app(data_dir: Path, frontend_dir: Path | None = None, test_mode=False):
     app = FastAPI(title='Self Hoard', docs_url=None, redoc_url=None, openapi_url=None)
-    stores = {'personal': Store(data_dir / 'personal.sqlite3'), 'demo': Store(data_dir / 'demo.sqlite3')}
+    stores = {space: Decisions(data_dir / f'{space}.sqlite3') for space in ('personal','demo')}
+    vaults = {space: DecisionVault(data_dir / f'decisions-{space}.sqlite3') for space in stores}
+    for space in stores:
+        vaults[space].purge(stores[space])
+    providers = ProviderManager(data_dir / 'providers.sqlite3')
+    app.state.providers = providers
     labs = {space: Lab(data_dir / f'lab-{space}.sqlite3') for space in stores}
     agents = AgentHub(data_dir / 'agents.sqlite3')
     sessions: set[str] = set()
@@ -37,9 +46,21 @@ def create_app(data_dir: Path, frontend_dir: Path | None = None, test_mode=False
         store(request)
         return request.headers.get('X-Hoard-Space', 'personal')
 
+    install_reflection(app,store,space_of,providers,vaults)
+
+    def mutate_memory(request, operation):
+        result=operation(store(request))
+        vaults[space_of(request)].purge(store(request))
+        return result
+
     @app.exception_handler(DomainError)
     async def domain_error(request, exc):
         return JSONResponse({'error': exc.code}, status_code=exc.status)
+
+    @app.exception_handler(RequestValidationError)
+    async def invalid_fields(request, exc):
+        # Do not echo original personal text or secrets in validation errors.
+        return JSONResponse({'error':'invalid_fields'},status_code=422)
 
     @app.middleware('http')
     async def local_boundary(request: Request, call_next):
@@ -151,11 +172,11 @@ def create_app(data_dir: Path, frontend_dir: Path | None = None, test_mode=False
 
     @app.post('/api/claims/{claim_id}/review')
     def review(claim_id: str, data: ReviewInput, request: Request):
-        return store(request).review(claim_id, data.state)
+        return mutate_memory(request,lambda memory: memory.review(claim_id, data.state))
 
     @app.post('/api/claims/{claim_id}/correct')
     def correct(claim_id: str, data: CorrectionInput, request: Request):
-        return store(request).review(claim_id, 'rejected', data.reason)
+        return mutate_memory(request,lambda memory: memory.review(claim_id, 'rejected', data.reason))
 
     @app.get('/api/sources/{source_id}/deletion')
     def deletion(source_id: str, request: Request):
@@ -163,7 +184,7 @@ def create_app(data_dir: Path, frontend_dir: Path | None = None, test_mode=False
 
     @app.delete('/api/sources/{source_id}')
     def remove_source(source_id: str, request: Request):
-        return store(request).delete_source(source_id)
+        return mutate_memory(request,lambda memory: memory.delete_source(source_id))
 
     @app.post('/api/search')
     def search(data: QueryInput, request: Request):

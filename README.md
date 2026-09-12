@@ -1,5 +1,9 @@
 # Self Hoard
 
+**El reflejo / The reflection** permite preparar un retrato, revisar recuerdos y maneras de expresarse y conversar con un modelo elegido. Incluye muletillas, ritmo, humor, vocabulario y manierismos descritos con ejemplos literales, frecuencia y contexto. Cada envío muestra datos y destino antes de usar el modelo. [Funcionamiento, pruebas y límites](docs/REFLECTION.md).
+
+**El reflejo / The reflection** supports a portrait, reviewed memories and expression examples, and conversation with a selected model. Catchphrases, rhythm, humor and mannerisms retain literal evidence, frequency and context. Preview personal data and destination before sending. The general implementation plan is still in progress; family reader access is not yet enabled.
+
 Archivo personal local con fuentes, afirmaciones revisables y un laboratorio visual de decisiones. Primera implementación del plan aportado el 12 de septiembre de 2026. Interfaz completa en español e inglés; las fuentes conservan su idioma original.
 
 ## Abrir en Windows

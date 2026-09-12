@@ -18,6 +18,7 @@ import {
   PanelLeftClose,
   BrainCircuit,
   Cable,
+  MessageCircle,
 } from "lucide-react";
 import {
   Locale,
@@ -34,8 +35,10 @@ import {
 import { Lab } from "./Lab";
 import { Neuro } from "./Neuro";
 import { Agents } from "./Agents";
+import { Reflection } from "./Reflection";
 
-type Page = "archive" | "sources" | "lab" | "neuro" | "privacy" | "agents";
+type Page =
+  "reflection" | "archive" | "sources" | "lab" | "neuro" | "privacy" | "agents";
 export default function App() {
   const [lang, setLang] = useState<Language>(() =>
     localStorage.getItem("hoard_language") === "en" ? "en" : "es",
@@ -58,7 +61,7 @@ function Workspace({
   setLang: (l: Language) => void;
 }) {
   const t = useText(),
-    [page, setPage] = useState<Page>("archive"),
+    [page, setPage] = useState<Page>("reflection"),
     [space, setSpace] = useState("personal");
   const [archive, setArchive] = useState<Archive>({
       sources: [],
@@ -179,6 +182,7 @@ function Workspace({
             : c.state === filter),
       );
   const navItems: [Page, typeof ArchiveIcon, string][] = [
+    ["reflection", MessageCircle, t("El reflejo", "The reflection")],
     ["archive", ArchiveIcon, t("Mi archivo", "My archive")],
     ["sources", Files, t("Fuentes", "Sources")],
     ["lab", FlaskConical, t("Laboratorio", "Laboratory")],
@@ -234,7 +238,7 @@ function Workspace({
           href="#"
           onClick={(e) => {
             e.preventDefault();
-            navigate("archive");
+            navigate("reflection");
           }}
         >
           <span className="brand-mark">
@@ -267,7 +271,9 @@ function Workspace({
           <div className="local-info">
             <ShieldCheck size={18} />
             <div>
-              <strong>{t("Solo en este equipo", "Only on this device")}</strong>
+              <strong>
+                {t("Archivo en este equipo", "Archive on this device")}
+              </strong>
               <small>
                 {t("Tú controlas el acceso de IA", "You control AI access")}
               </small>
@@ -732,6 +738,15 @@ function Workspace({
                 </>
               )}
               {page === "lab" && <Lab api={api} busy={busy} act={act} />}
+              {page === "reflection" && (
+                <Reflection
+                  key={space}
+                  api={api}
+                  busy={busy}
+                  act={act}
+                  refreshArchive={refresh}
+                />
+              )}
               {page === "neuro" && <Neuro />}
               {page === "agents" && (
                 <Agents key={space} api={api} busy={busy} act={act} />
@@ -786,8 +801,8 @@ function Workspace({
                         </h2>
                         <p>
                           {t(
-                            "JSON conserva las fuentes, estados y dependencias para restaurarlos. Markdown ofrece una copia legible. Las copias descargadas quedan bajo tu gestión.",
-                            "JSON preserves sources, states and dependencies for restoration. Markdown provides a readable copy. You manage downloaded copies yourself.",
+                            "JSON conserva las fuentes, estados y dependencias para restaurarlos. Markdown ofrece una copia legible. Estas copias todavía no incluyen el retrato, los detalles de expresión ni las conversaciones del reflejo. Las copias descargadas quedan bajo tu gestión.",
+                            "JSON preserves sources, states and dependencies for restoration. Markdown provides a readable copy. These copies do not yet include the portrait, expression metadata or reflection conversations. You manage downloaded copies yourself.",
                           )}
                         </p>
                         <div className="button-row">
@@ -1192,7 +1207,12 @@ function SourceDetail({
     [from, setFrom] = useState(""),
     [to, setTo] = useState(""),
     [parent, setParent] = useState(""),
-    [deletion, setDeletion] = useState<{ claims: number } | null>(null),
+    [deletion, setDeletion] = useState<{
+      claims: number;
+      cards?: number;
+      turns?: number;
+      preference_models?: number;
+    } | null>(null),
     [saved, setSaved] = useState(false);
   return (
     <section className="source-detail">
@@ -1324,6 +1344,16 @@ function SourceDetail({
                 "claims or derivatives, along with their reviews.",
               )}
             </p>
+            {Boolean(
+              deletion.cards || deletion.turns || deletion.preference_models,
+            ) && (
+              <p>
+                {t(
+                  `También se retirarán ${deletion.cards ?? 0} fichas del reflejo, ${deletion.turns ?? 0} respuestas guardadas y ${deletion.preference_models ?? 0} modelos de preferencias derivados.`,
+                  `This also removes ${deletion.cards ?? 0} reflection entries, ${deletion.turns ?? 0} saved answers and ${deletion.preference_models ?? 0} derived preference models.`,
+                )}
+              </p>
+            )}
             <div className="button-row">
               <button
                 className="danger-button"
