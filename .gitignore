@@ -1,0 +1,14 @@
+.venv/
+__pycache__/
+.pytest_cache/
+*.pyc
+*.tsbuildinfo
+data/
+*.sqlite*
+node_modules/
+frontend/dist/
+.impeccable/review/
+test-results/
+*.log
+.env
+docs/reference/

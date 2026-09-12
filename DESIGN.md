@@ -1,0 +1,287 @@
+---
+name: Self Hoard
+description: Archivo personal local con fuentes, revisión explícita y una interfaz de lectura bilingüe.
+colors:
+  ink: "#24372f"
+  muted: "#627168"
+  accent: "#34634a"
+  accent-hover: "#244e38"
+  paper: "#f7f8f5"
+  surface: "#fff"
+  sidebar: "#eef1e9"
+  line: "#dde3da"
+  heading-soft: "#72906d"
+  navigation-active: "#dce8d6"
+  navigation-ink: "#2c523b"
+  row-selected: "#edf3e9"
+  row-hover: "#f0f4eb"
+  control-border: "#ccd6c7"
+  secondary-border: "#cfd8cb"
+  secondary-hover: "#f1f5ee"
+  status-neutral: "#e8eae4"
+  status-neutral-ink: "#566353"
+  status-confirmed: "#e3efdf"
+  status-confirmed-ink: "#315c3c"
+  status-proposed: "#f0ebd9"
+  status-proposed-ink: "#786326"
+  status-disputed: "#f6e4d6"
+  status-disputed-ink: "#80512e"
+  status-rejected: "#f3dfdc"
+  status-rejected-ink: "#8c3832"
+  danger: "#a33632"
+  danger-hover: "#7c2523"
+  error: "#fae7e3"
+  error-ink: "#8a3930"
+  success: "#e4eedc"
+  success-ink: "#3c602e"
+  focus: "#629056"
+  arena: "#e9efdf"
+  diagram: "#edf2e6"
+typography:
+  display:
+    fontFamily: "Manrope Variable, sans-serif"
+    fontSize: "clamp(32px, 3.25vw, 46px)"
+    fontWeight: 620
+    lineHeight: 1.19
+    letterSpacing: "-0.037em"
+  headline:
+    fontFamily: "Manrope Variable, sans-serif"
+    fontSize: "19px"
+    fontWeight: 650
+    lineHeight: 1.35
+    letterSpacing: "-0.02em"
+  title:
+    fontFamily: "Manrope Variable, sans-serif"
+    fontSize: "15px"
+    fontWeight: 650
+  body:
+    fontFamily: "Manrope Variable, sans-serif"
+    fontSize: "14px"
+    fontWeight: 450
+  paragraph:
+    fontFamily: "Manrope Variable, sans-serif"
+    fontSize: "13px"
+    fontWeight: 450
+    lineHeight: 1.7
+  claim:
+    fontFamily: "Manrope Variable, sans-serif"
+    fontSize: "16px"
+    fontWeight: 570
+    lineHeight: 1.65
+  label:
+    fontFamily: "Manrope Variable, sans-serif"
+    fontSize: "12px"
+    fontWeight: 570
+  button:
+    fontFamily: "Manrope Variable, sans-serif"
+    fontSize: "12px"
+    fontWeight: 650
+  status:
+    fontFamily: "Manrope Variable, sans-serif"
+    fontSize: "10px"
+    fontWeight: 600
+    lineHeight: 1.6
+rounded:
+  tag: "4px"
+  field: "6px"
+  button: "7px"
+  navigation: "8px"
+  surface: "12px"
+spacing:
+  action-gap: "9px"
+  form-gap: "20px"
+  surface-inset: "23px"
+  archive-gap: "28px"
+  section-gap: "30px"
+components:
+  button-primary:
+    backgroundColor: "{colors.accent}"
+    textColor: "{colors.surface}"
+    typography: "{typography.button}"
+    rounded: "{rounded.button}"
+    padding: "11px 17px"
+  button-primary-hover:
+    backgroundColor: "{colors.accent-hover}"
+  button-secondary:
+    backgroundColor: "{colors.surface}"
+    textColor: "{colors.ink}"
+    typography: "{typography.button}"
+    rounded: "{rounded.button}"
+    padding: "11px 17px"
+  button-text:
+    textColor: "{colors.accent}"
+    rounded: "{rounded.tag}"
+    padding: "8px 3px"
+  button-danger:
+    backgroundColor: "{colors.danger}"
+    textColor: "{colors.surface}"
+    typography: "{typography.button}"
+    rounded: "{rounded.button}"
+    padding: "11px 17px"
+  field:
+    backgroundColor: "{colors.surface}"
+    textColor: "{colors.ink}"
+    rounded: "{rounded.field}"
+    padding: "11px 12px"
+  navigation-active:
+    backgroundColor: "{colors.navigation-active}"
+    textColor: "{colors.navigation-ink}"
+    rounded: "{rounded.navigation}"
+    padding: "13px 14px"
+  status-confirmed:
+    backgroundColor: "{colors.status-confirmed}"
+    textColor: "{colors.status-confirmed-ink}"
+    typography: "{typography.status}"
+    rounded: "{rounded.tag}"
+    padding: "3px 8px"
+  evidence-panel:
+    backgroundColor: "{colors.surface}"
+    textColor: "{colors.ink}"
+    rounded: "{rounded.surface}"
+    padding: "23px"
+---
+
+# Design System: Self Hoard
+
+## Overview
+
+**Creative North Star: "Escritorio de lectura editorial"**
+
+Una superficie clara para leer fuentes y revisar afirmaciones con calma. El verde apagado organiza acciones, selección y navegación; los márgenes amplios y las líneas finas separan información sin convertir cada fila en una tarjeta. La identidad se expresa con Manrope, una marca tipográfica compacta y pequeños iconos de trazo.
+
+Este documento registra la interfaz construida, no una propuesta futura. La dirección procede de `docs/first-surface.md`; los valores se extrajeron de `frontend/src/style.css` y los comportamientos de `App.tsx`, `Lab.tsx`, `Neuro.tsx` y `shared.tsx`. Se contrastó la composición con las seis capturas de archivo, laboratorio y neurociencia en `.impeccable/review/`, en escritorio y móvil. El marco permanece estable entre las cinco secciones implementadas. El idioma de la interfaz cambia entre español e inglés sin traducir las fuentes originales.
+
+**Key Characteristics:**
+
+- Fondo de lectura claro, superficies blancas y divisores suaves.
+- Jerarquía tipográfica sin una segunda familia decorativa.
+- Afirmación, tipo, estado y procedencia visibles como información distinta.
+- Escenas esquemáticas con etiquetas explícitas de demostración o ilustración.
+- Navegación estable en escritorio y desplazable horizontalmente en móvil.
+
+## Colors
+
+La paleta combina verdes poco saturados con blancos cálidos; ámbar y rojo tienen funciones de revisión y error.
+
+### Primary
+
+- **Verde de acción** (`accent`): acciones principales, enlaces, filtros seleccionados y controles de rango. Su variante oscura responde al paso del puntero.
+- **Salvia del titular** (`heading-soft`): segunda frase del encabezado principal. No se usa como color de párrafo general.
+- **Verde de selección** (`navigation-active`, `navigation-ink`, `row-selected`): destino actual y fila seleccionada; navegación y filas tienen fondos distintos.
+
+### Secondary
+
+- **Estados de revisión**: pares de fondo y texto `status-confirmed`, `status-proposed`, `status-disputed` y `status-rejected`. El estado sustituido conserva el par neutro. Cada color se acompaña del nombre del estado.
+- **Rojo de operación destructiva** (`danger`): acción de borrado final y acceso a revisar el borrado. Error y éxito usan sus propios pares de aviso.
+
+### Neutral
+
+- **Tinta verde oscura** (`ink`): texto principal. **Tinta secundaria** (`muted`): explicaciones, metadatos y notas.
+- **Papel claro** (`paper`), **blanco de superficie** (`surface`) y **papel lateral** (`sidebar`): página, paneles y navegación respectivamente.
+- **Línea de archivo** (`line`): límites de filas, secciones y paneles. Los campos usan un borde algo más definido.
+- **Fondos de esquema** (`arena`, `diagram`): delimitan la escena del laboratorio y la ilustración de conexiones.
+
+**The Explicit State Rule.** El color acompaña una etiqueta textual de estado; no reemplaza tipo, atribución ni explicación del resultado.
+
+Los tokens reutilizados están en el frontmatter. Los matices exclusivos de los dibujos permanecen en su CSS; `--soft` está declarado pero no se usa y no se promueve a token normativo. Las rampas del sidecar son muestras generadas para el panel, no una escala aplicada a la interfaz.
+
+## Typography
+
+**Display Font:** Manrope Variable, con fallback sans-serif.
+**Body Font:** la misma familia, empaquetada mediante `@fontsource-variable/manrope` en `main.tsx`.
+**Label/Mono Font:** las etiquetas mantienen Manrope; el sello de laboratorio usa el estilo de código del navegador. El texto original de una fuente se fuerza a la familia de lectura.
+
+El carácter es preciso y ligero, con titulares de espaciado estrecho y texto de lectura más abierto. No existe una escala modular única: los tamaños responden a roles concretos.
+
+### Hierarchy
+
+- **Display:** el rol `display` gobierna los h1, con salto de línea explícito y segunda frase en salvia. En móvil se fija a (33px).
+- **Headline:** el rol `headline` es el h2 general; el panel de evidencia usa (16px), el explicador científico (24px) y su texto de enlace final (26px; 24px en móvil).
+- **Title:** el h3 general sigue `title`; las afirmaciones de la lista usan `claim`, con ancho máximo de (75ch), y pasan a (15px) en móvil.
+- **Body:** la raíz usa `body`; la introducción de página y el texto largo usan normalmente `paragraph`. La introducción se limita a (66ch); las notas, filas de investigación y metadatos reducen el tamaño según su rol.
+- **Label:** campos a partir de `label`; navegación, estados y acciones tienen sus propios pesos. Metadatos y notas oscilan entre (9px) y (12px), por lo que este registro no afirma cumplimiento universal de legibilidad.
+- **Numbers:** recuentos y valores de prioridades usan cifras tabulares para mantener alineación.
+
+## Layout
+
+El marco de escritorio es una cuadrícula con barra lateral pegada al viewport (232px) y área de trabajo flexible. La barra tiene altura (100dvh); el encabezado tiene altura mínima (82px). El contenido se centra con máximo de (1510px) y relleno habitual (43px 40px 45px). A partir de (1500px), los márgenes horizontales del contenido y del encabezado crecen a (64px).
+
+Sin selección, el archivo usa una columna. Con evidencia abierta, usa columnas (1.3fr / 1fr), un mínimo de (295px) para el detalle y separación `archive-gap`. Las fuentes tienen lista y detalle propios. El laboratorio distribuye escena y controles en columnas flexibles más (255px); neurociencia usa proporción (1.25fr / 1fr) y filas bibliográficas de nombre, explicación y enlace.
+
+- Hasta (1200px): lateral de (205px), márgenes de contenido de (27px), detalle de archivo de (300px), controles de laboratorio de (220px).
+- Hasta (1049px): archivo, fuentes, laboratorio y explicador científico se apilan. Los controles del laboratorio pasan a dos columnas; los recuentos pueden envolver. El detalle de evidencia se sitúa después de la lista.
+- Hasta (720px): el marco se vuelve de bloque. La marca y el selector de archivo ocupan la primera fila, la navegación se desplaza horizontalmente y el contenido tiene márgenes de (19px). Los paneles usan relleno de (20px). La bibliografía sitúa nombre y enlace sobre el resumen; el pie se apila.
+
+La densidad es mixta: filas de lectura amplias, controles y notas compactos. No se fuerza todo a una cuadrícula de tarjetas. Las cadenas largas de fuentes, citas y sellos pueden partirse; el texto fuente conserva saltos y dispone de desplazamiento interno con altura máxima de (320px).
+
+## Elevation & Depth
+
+La interfaz de archivo es plana: separa superficies por tono, borde y espacio, sin sombras en filas, formularios o paneles. Solo la escena del laboratorio tiene sombras pequeñas, bajo los destinos y el punto del agente; sus valores exactos están en `extensions.shadows` del sidecar.
+
+La evidencia entra mediante opacidad de (0.45) a (1) en (160ms). Botones y enlaces cambian color en (150ms). El laboratorio dibuja el recorrido en (900ms) y mueve el agente en (1100ms). La capa dinámica de neurociencia anima trazos en un ciclo de (1600ms). La preferencia de movimiento reducido elimina animaciones, transiciones y desplazamiento suave, también en el retorno programático a una afirmación.
+
+**The Flat Archive Rule.** Las sombras pertenecen a la escena esquemática; el archivo conserva separación por tono y divisores.
+
+## Shapes
+
+Los paneles, formularios, escena y figura comparten esquinas de `surface`. Las acciones usan `button`; campos y avisos, `field`; navegación y buscador, `navigation`; etiquetas, `tag`. Las filas del archivo y la bibliografía son rectangulares, abiertas al fondo y separadas por una línea inferior.
+
+Los círculos se reservan al identificador personal/demo, los nodos del esquema y el agente. Los iconos de destinos del laboratorio tienen una curva algo mayor (14px); la marca y el símbolo de demostración usan (10px). Los iconos de interfaz son SVG de Lucide, de trazo sencillo; no hay fotografía ni textura de fondo.
+
+## Components
+
+### Buttons
+
+Acciones compactas, con verbo visible y un icono cuando aclara la función. Primaria, secundaria y destructiva comparten altura mínima (43px), separación interna (9px) y los tokens del frontmatter. La variante pequeña usa (36px), relleno (9px 13px) y texto (11px); la acción del encabezado se reduce más en móvil. La secundaria tiene borde fino, la textual deja visible el fondo. No hay una transformación propia de estado pulsado.
+
+El paso del puntero oscurece primaria y destructiva; secundaria se tiñe suavemente. El foco visible global usa contorno de (3px) y separación de (3px). Los botones deshabilitados reducen su opacidad a (0.5) y cambian el cursor. El borrado muestra antes su alcance y una acción final junto a cancelar.
+
+### Chips
+
+Las etiquetas de estado son informativas, no filtros. Mantienen texto, fondo suave y esquinas pequeñas. Los filtros del archivo y las capas de neurociencia son botones con `aria-pressed`, subrayado inferior de (2px) y cambio de tinta; no implementan un widget ARIA de pestañas.
+
+### Cards / Containers
+
+El panel de evidencia es blanco, con borde fino, sin sombra y relleno `surface-inset`. Contiene la afirmación, el estado, la cita literal entre divisores, metadatos en lista de definiciones, acciones y un historial desplegable. Formularios y detalle de fuente comparten forma, con rellenos respectivos de (28px) y (26px) antes del ajuste móvil.
+
+Las filas de afirmaciones son botones completos, con relleno (23px 18px), estado y tipo arriba, texto central y fuente abajo. El foco se lleva al panel al seleccionar; `aria-expanded` y `aria-controls` enlazan la fila con su detalle. Cerrar o usar «Volver a la afirmación» devuelve el foco a la fila y la hace visible. El panel es parte del documento, no un modal.
+
+### Inputs / Fields
+
+Campos blancos con borde definido, etiqueta exterior y altura mínima (42px); los textareas crecen verticalmente. El buscador es una superficie compartida entre icono, campo y acción: su campo interior no tiene un segundo borde, margen superior ni fondo opaco. Su foco se dibuja en el contenedor con contorno de (2px) y separación de (2px).
+
+Los campos requeridos y límites usan validación nativa; los fallos de operación aparecen en un aviso global con `role="alert"`. Las confirmaciones usan `role="status"`. No hay un patrón implementado de error por campo ni mensajes de error vinculados mediante `aria-describedby`. El control de archivo conserva un input nativo transparente y muestra foco en su etiqueta. El laboratorio utiliza selects y rangos nativos con valor textual; durante una prueba se deshabilita el conjunto de criterios.
+
+### Navigation
+
+Cinco destinos: archivo, fuentes, laboratorio, neurociencia y datos. Son botones dentro de navegación etiquetada, con `aria-current="page"` para el destino activo. La marca vuelve al archivo. El selector ES/EN actualiza `document.documentElement.lang` y recuerda el idioma localmente. La navegación móvil conserva los cinco destinos en una fila desplazable; no añade menú desplegable. Hay enlace de salto al contenido visible al recibir foco.
+
+### Demonstration scene and research schematic
+
+Tres actividades con icono, nombre y tiempo se conectan a un agente visible. Los destinos no disponibles se atenúan; sus botones de respuesta se deshabilitan y explican la falta de tiempo. La predicción queda oculta hasta responder. Después, texto de resultado, actividad elegida, etiqueta «Tu elección», recorrido y desglose explican lo ocurrido; abstención y salto tienen mensajes propios. El estado animado no sustituye el resultado textual.
+
+El laboratorio declara que sus prioridades se configuran manualmente y no son rasgos medidos. Neurociencia ofrece tres capas con texto explicativo y una figura SVG etiquetada como esquema ilustrativo. Los enlaces de investigación tienen texto e indicador de apertura externa. No presentar estos dibujos como conectomas reales, simulación cerebral o validación de un gemelo aprendido.
+
+### Loading, empty and notices
+
+La carga muestra un título y una frase; un fallo de apertura añade indicación de recargar. Un archivo vacío propone añadir una fuente y permite explorar la demo; una búsqueda vacía declara falta de evidencia. La demo usa un aviso persistente sobre su carácter sintético y separado. No hay esqueletos animados, notificaciones flotantes ni diálogo modal de confirmación en la implementación actual.
+
+Los patrones de accesibilidad descritos se verificaron en código y en una revisión visual acotada; este documento no certifica WCAG ni una auditoría completa de lector de pantalla. La revisión final comunicada resolvió cuatro correcciones y limitó su disposición de entrega a esas correcciones; la ejecución única del detector devolvió `[]`. Esos resultados no acreditan funciones futuras ni validación científica.
+
+## Do's and Don'ts
+
+### Do:
+
+- **Do** conservar tipo, estado y procedencia como información separada y legible.
+- **Do** mantener la cita literal a la vista en el detalle y devolver el foco a la afirmación al cerrarlo.
+- **Do** probar el texto de interfaz en español e inglés, conservando el idioma original de las fuentes.
+- **Do** mantener visibles las etiquetas de demo y de esquema ilustrativo junto a sus superficies.
+- **Do** aplicar movimiento reducido tanto a CSS como al desplazamiento programático.
+
+### Don't:
+
+- **Don't** introducir sombras en las filas y paneles del archivo.
+- **Don't** añadir un segundo borde al campo interior del buscador.
+- **Don't** convertir una etiqueta de revisión en un indicador de exactitud personal o científica.
+- **Don't** presentar la escena manual como un agente aprendido del archivo.
+- **Don't** usar color o animación como única explicación de selección, revisión o resultado.
