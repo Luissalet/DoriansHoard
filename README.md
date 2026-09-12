@@ -6,7 +6,7 @@ Archivo personal local con fuentes, afirmaciones revisables y un laboratorio vis
 
 Haz doble clic en **Iniciar Self Hoard.cmd**. La aplicación se abre en http://127.0.0.1:8741. El servidor se ejecuta oculto en este equipo. **Detener Self Hoard.cmd** lo detiene.
 
-En este equipo las dependencias ya están instaladas y la interfaz compilada. En una copia nueva hacen falta Python 3.11+ y Node.js/npm; el iniciador prepara el entorno y compila la interfaz cuando faltan. Esa instalación inicial usa Internet; la aplicación en funcionamiento no conecta proveedores ni envía datos personales.
+En este equipo las dependencias ya están instaladas y la interfaz compilada. En una copia nueva hacen falta Python 3.11+ y Node.js/npm; el iniciador prepara el entorno y compila la interfaz cuando faltan. Esa instalación inicial usa Internet. La aplicación no tiene telemetría ni un proveedor de modelos propio; una IA a la que autorices puede consultar contexto local y procesarlo con su proveedor.
 
 ## Recorrido inicial
 
@@ -41,7 +41,9 @@ Los archivos de datos se guardan en `data/`, excluido de Git. El archivo persona
 
 La sesión local reduce accesos accidentales desde otros sitios; **no es autenticación entre usuarios del sistema operativo**. El almacenamiento aún no está cifrado por la aplicación. El borrado lógico y de páginas SQLite se prueba con datos sintéticos, pero no garantiza eliminación de copias externas, instantáneas del sistema ni remanencia de hardware. Los documentos originales que aportaste siguen en Downloads.
 
-El MVP completo del informe sigue pendiente: compilación de contexto por permisos, proveedores intercambiables, entrevista adaptativa, modelo personal, evaluación longitudinal, MCP e integración con Faustus. Las pruebas de software no son validación psicológica ni científica.
+La conexión MCP y la consulta de contexto por permisos ya están disponibles: [conectar IA y compartir conocimiento](docs/MCP.md). Incluyen nueve herramientas, bandeja de revisión, atribución, detección de cambios, caducidad y revocación. El cliente MCP elige el modelo; Self Hoard no incluye un proveedor de inferencia propio.
+
+El MVP completo del informe sigue pendiente: recuperación semántica, entrevista adaptativa, modelo personal, evaluación longitudinal e integración con Faustus. Las pruebas de software no son validación psicológica ni científica.
 
 ## Desarrollo y pruebas
 
@@ -71,4 +73,4 @@ La API valida que el origen coincida con el servidor. Para comprobar la aplicaci
 
 Double-click **Iniciar Self Hoard.cmd**, then choose **English** in the top bar. Add a source, propose a verbatim quote, and confirm it in **My archive**. Text remains in its original language. **My data** exports JSON/Markdown and restores into an empty archive.
 
-The **Laboratory** is an explicit manual-policy demonstration, not a trained personal twin. Predictions stay hidden until you answer. Research references and a proposal for richer activity environments are included. Personal data stays on this device; application-level encryption and OS-user authentication are not implemented yet.
+The **Laboratory** is an explicit manual-policy demonstration, not a trained personal twin. Predictions stay hidden until you answer. **AI connections** lets local MCP clients read permitted context and submit reports for owner review. Accepted AI reports preserve their attribution. A connected client may process the context with its model provider. Application-level encryption and OS-user authentication are not implemented yet. See [MCP setup and controls](docs/MCP.md).

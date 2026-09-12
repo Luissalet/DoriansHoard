@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-09-12T18:53:25.421937+00:00",
+  "generatedAt": "2026-09-12T19:54:57.621098+00:00",
   "title": "Design System: Self Hoard",
   "extensions": {
     "colorMeta": {
@@ -493,6 +493,20 @@
           "oklch(83.57% 0.01674 125.29)",
           "oklch(95.00% 0.01674 125.29)"
         ]
+      },
+      "soft": {
+        "role": "primary",
+        "displayName": "Soft sage",
+        "tonalRamp": [
+          "oklch(15.00% 0.01578 139.44)",
+          "oklch(26.43% 0.01578 139.44)",
+          "oklch(37.86% 0.01578 139.44)",
+          "oklch(49.29% 0.01578 139.44)",
+          "oklch(60.71% 0.01578 139.44)",
+          "oklch(72.14% 0.01578 139.44)",
+          "oklch(83.57% 0.01578 139.44)",
+          "oklch(95.00% 0.01578 139.44)"
+        ]
       }
     },
     "typographyMeta": {
@@ -565,6 +579,10 @@
       {
         "name": "mobile-max",
         "value": "720px"
+      },
+      {
+        "name": "ai-stacked-max",
+        "value": "900px"
       }
     ]
   },
@@ -648,17 +666,33 @@
       "description": "Border-separated claim row with selected state; example text is synthetic.",
       "html": "<button class=\"ds-claim\" aria-expanded=\"false\"><span class=\"ds-meta\">Declaración propia</span><h3 class=\"ds-claim-text\">Una afirmación de ejemplo conservada con su fuente.</h3><span class=\"ds-source\">Nota de ejemplo · Fuente sintética</span></button>",
       "css": ".ds-claim{font-family:'Manrope Variable',sans-serif;display:block;text-align:left;width:100%;padding:23px 18px;border:0;border-bottom:1px solid var(--line,#dde3da);background:transparent;color:var(--ink,#24372f);cursor:pointer;transition:background-color 150ms,color 150ms}.ds-claim[aria-expanded=true]{background:#edf3e9}.ds-claim:hover{background:#f0f4eb}.ds-claim:focus-visible{outline:3px solid #629056;outline-offset:3px}.ds-meta{display:block;margin-bottom:13px;font-size:10px;color:var(--muted,#627168)}.ds-claim-text{font-size:16px;line-height:1.65;max-width:75ch;font-weight:570;text-wrap:pretty;margin:0}.ds-source{display:block;font-size:10px;color:var(--muted,#627168);margin-top:17px}@media(max-width:720px){.ds-claim{padding:21px 8px}.ds-claim-text{font-size:15px}}@media(prefers-reduced-motion:reduce){.ds-claim{transition:none}}"
+    },
+    {
+      "name": "AI permission",
+      "kind": "input",
+      "refersTo": "field",
+      "description": "Native independent permission with its explanation. Checked state inherits the action accent; the full label is clickable.",
+      "html": "<fieldset class=\"ds-permissions\"><legend>Permissions</legend><label class=\"ds-permission\"><input type=\"checkbox\" checked><span><strong>Read context</strong><small>Confirmed statements and accepted reports.</small></span></label><label class=\"ds-permission\"><input type=\"checkbox\"><span><strong>Read complete sources</strong><small>Includes original text you may not have reviewed.</small></span></label></fieldset>",
+      "css": ".ds-permissions{font-family:'Manrope Variable',sans-serif;color:var(--ink,#24372f);border:0;padding:0;margin:0;display:grid;gap:16px}.ds-permissions legend{margin-bottom:14px;font-size:13px}.ds-permission{display:flex;align-items:flex-start;gap:10px;cursor:pointer;font-size:13px;font-weight:570;margin:0}.ds-permission input{margin:3px 0 0;width:16px;height:16px;padding:0;min-height:0;flex-shrink:0;accent-color:var(--accent,#34634a)}.ds-permission input:focus-visible{outline:3px solid #629056;outline-offset:3px}.ds-permission input:disabled{opacity:.5;cursor:not-allowed}.ds-permission small{display:block;line-height:1.5;margin-top:4px;color:var(--muted,#627168)}"
+    },
+    {
+      "name": "Attributed AI report",
+      "kind": "custom",
+      "description": "Flat inbox article. The amber tag denotes category, while the selected filter denotes review state. All preview content is synthetic.",
+      "html": "<div class=\"ds-ai-filters\" aria-label=\"Update status\"><button aria-pressed=\"true\">To review</button><button aria-pressed=\"false\">Accepted</button><button aria-pressed=\"false\">Rejected</button></div><article class=\"ds-ai-report\"><div class=\"ds-ai-meta\"><span>Synthetic AI sender</span><time datetime=\"2026-09-12\">12/09/2026</time></div><h3>Example contribution</h3><span class=\"ds-ai-kind\">AI inference</span><p class=\"ds-ai-original\">Synthetic example, not a statement about the owner.</p><details><summary>View origin</summary><p class=\"ds-ai-original\">Synthetic source for this component preview.</p></details><div class=\"ds-ai-actions\"><button class=\"ds-ai-accept\">Accept report</button><button class=\"ds-ai-reject\">Reject</button></div></article>",
+      "css": ".ds-ai-filters{font-family:'Manrope Variable',sans-serif;color:var(--ink,#24372f);display:flex;gap:6px;border-bottom:1px solid var(--line,#dde3da);padding:6px 0 12px}.ds-ai-filters button{font-family:'Manrope Variable',sans-serif;color:var(--ink,#24372f);border:0;background:none;border-radius:6px;padding:8px 10px;font-size:12px;cursor:pointer;transition:background-color 150ms,color 150ms}.ds-ai-filters button[aria-pressed=true]{background:var(--soft,#e6eee4);color:var(--accent,#34634a);font-weight:650}.ds-ai-filters button:hover{background:#e8ede5}.ds-ai-report{font-family:'Manrope Variable',sans-serif;color:var(--ink,#24372f);border-bottom:1px solid var(--line,#dde3da);padding:24px 0;overflow-wrap:anywhere}.ds-ai-meta{display:flex;justify-content:space-between;gap:16px;color:var(--muted,#627168);font-size:12px}.ds-ai-report h3{margin:12px 0;font-size:18px;font-weight:650}.ds-ai-kind{display:inline-flex;font-size:10px;line-height:1.6;padding:3px 8px;border-radius:4px;background:#f0ebd9;color:#786326;font-weight:600}.ds-ai-original{white-space:pre-wrap;font-size:14px;line-height:1.65;max-width:70ch;margin:0}.ds-ai-report summary{cursor:pointer;font-size:13px;text-underline-offset:4px}.ds-ai-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:20px}.ds-ai-actions button{font-family:'Manrope Variable',sans-serif;color:var(--ink,#24372f);border-radius:7px;min-height:36px;display:inline-flex;align-items:center;justify-content:center;gap:9px;padding:9px 13px;font-weight:650;font-size:11px;cursor:pointer;transition:background-color 150ms,color 150ms}.ds-ai-accept{border:0;background:var(--accent,#34634a);color:#fff!important}.ds-ai-accept:hover:not(:disabled){background:#244e38}.ds-ai-reject{background:#fff;border:1px solid #cfd8cb}.ds-ai-reject:hover:not(:disabled){background:#f1f5ee}.ds-ai-actions button:disabled{opacity:.5;cursor:not-allowed}.ds-ai-filters button:focus-visible,.ds-ai-actions button:focus-visible,.ds-ai-report summary:focus-visible{outline:3px solid #629056;outline-offset:3px}@media(prefers-reduced-motion:reduce){.ds-ai-filters button,.ds-ai-actions button{transition:none}}"
     }
   ],
   "narrative": {
     "northStar": "Escritorio de lectura editorial",
-    "overview": "Una superficie clara para leer fuentes y revisar afirmaciones con calma. El verde apagado organiza acciones, selección y navegación; los márgenes amplios y las líneas finas separan información sin convertir cada fila en una tarjeta. La identidad se expresa con Manrope, una marca tipográfica compacta y pequeños iconos de trazo.\n\nEste documento registra la interfaz construida, no una propuesta futura. La dirección procede de `docs/first-surface.md`; los valores se extrajeron de `frontend/src/style.css` y los comportamientos de `App.tsx`, `Lab.tsx`, `Neuro.tsx` y `shared.tsx`. Se contrastó la composición con las seis capturas de archivo, laboratorio y neurociencia en `.impeccable/review/`, en escritorio y móvil. El marco permanece estable entre las cinco secciones implementadas. El idioma de la interfaz cambia entre español e inglés sin traducir las fuentes originales.",
+    "overview": "Una superficie clara para leer fuentes y revisar afirmaciones con calma. El verde apagado organiza acciones, selección y navegación; los márgenes amplios y las líneas finas separan información sin convertir cada fila en una tarjeta. La identidad se expresa con Manrope, una marca tipográfica compacta y pequeños iconos de trazo.\n\nEste documento registra la interfaz construida, no una propuesta futura. La dirección procede de `docs/first-surface.md` y su extensión Operate en `docs/ai-surface.md`; los valores se extrajeron de `frontend/src/style.css` y los comportamientos de `App.tsx`, `Lab.tsx`, `Neuro.tsx`, `Agents.tsx` y `shared.tsx`. Se contrastó la composición con las seis capturas de archivo, laboratorio y neurociencia y las capturas `agents-desktop-es.png` y `agents-mobile-en.png` en `.impeccable/review/`. El marco permanece estable entre las seis secciones implementadas. El idioma de la interfaz cambia entre español e inglés sin traducir las fuentes ni las aportaciones originales.",
     "keyCharacteristics": [
       "Fondo de lectura claro, superficies blancas y divisores suaves.",
       "Jerarquía tipográfica sin una segunda familia decorativa.",
       "Afirmación, tipo, estado y procedencia visibles como información distinta.",
       "Escenas esquemáticas con etiquetas explícitas de demostración o ilustración.",
-      "Navegación estable en escritorio y desplazable horizontalmente en móvil."
+      "Navegación estable en escritorio y desplazable horizontalmente en móvil.",
+      "Bandeja de aportaciones IA como superficie principal, con permisos y conexiones en segundo plano."
     ],
     "rules": [
       {
@@ -677,14 +711,17 @@
       "**Do** mantener la cita literal a la vista en el detalle y devolver el foco a la afirmación al cerrarlo.",
       "**Do** probar el texto de interfaz en español e inglés, conservando el idioma original de las fuentes.",
       "**Do** mantener visibles las etiquetas de demo y de esquema ilustrativo junto a sus superficies.",
-      "**Do** aplicar movimiento reducido tanto a CSS como al desplazamiento programático."
+      "**Do** aplicar movimiento reducido tanto a CSS como al desplazamiento programático.",
+      "**Do** presentar autor, categoría y procedencia antes de aceptar una aportación IA, y conservarlos después.",
+      "**Do** mantener la divulgación sobre el proveedor junto al estado de acceso y la explicación de cada permiso junto a su checkbox."
     ],
     "donts": [
       "**Don't** introducir sombras en las filas y paneles del archivo.",
       "**Don't** añadir un segundo borde al campo interior del buscador.",
       "**Don't** convertir una etiqueta de revisión en un indicador de exactitud personal o científica.",
       "**Don't** presentar la escena manual como un agente aprendido del archivo.",
-      "**Don't** usar color o animación como única explicación de selección, revisión o resultado."
+      "**Don't** usar color o animación como única explicación de selección, revisión o resultado.",
+      "**Don't** presentar una aportación IA aceptada como declaración original del propietario ni prometer que revocar borra copias externas."
     ]
   }
 }

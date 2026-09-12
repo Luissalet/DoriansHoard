@@ -63,6 +63,18 @@ export function Status({ state }: { state: string }) {
   return <span className={"status " + state}>{t(...label)}</span>;
 }
 export const errors: Record<string, [string, string]> = {
+  terminal_update: [
+    "Esta aportación ya se rechazó. La IA deberá enviar una nueva para revisarla.",
+    "This report was rejected. The AI must submit a new one for review.",
+  ],
+  not_found: [
+    "Este elemento ya no está disponible. Actualiza la vista.",
+    "This item is no longer available. Refresh the view.",
+  ],
+  inbox_full: [
+    "La bandeja está llena. Exporta y elimina aportaciones para liberar espacio.",
+    "The inbox is full. Export and delete reports to free space.",
+  ],
   quote_not_in_source: [
     "La cita debe aparecer exactamente en la fuente.",
     "The quote must appear exactly in the source.",

@@ -17,6 +17,7 @@ import {
   Upload,
   PanelLeftClose,
   BrainCircuit,
+  Cable,
 } from "lucide-react";
 import {
   Locale,
@@ -32,8 +33,9 @@ import {
 } from "./shared";
 import { Lab } from "./Lab";
 import { Neuro } from "./Neuro";
+import { Agents } from "./Agents";
 
-type Page = "archive" | "sources" | "lab" | "neuro" | "privacy";
+type Page = "archive" | "sources" | "lab" | "neuro" | "privacy" | "agents";
 export default function App() {
   const [lang, setLang] = useState<Language>(() =>
     localStorage.getItem("hoard_language") === "en" ? "en" : "es",
@@ -182,6 +184,7 @@ function Workspace({
     ["lab", FlaskConical, t("Laboratorio", "Laboratory")],
     ["neuro", BrainCircuit, t("Neurociencia", "Neuroscience")],
     ["privacy", ShieldCheck, t("Mis datos", "My data")],
+    ["agents", Cable, t("Conexiones IA", "AI connections")],
   ];
   const scrollBehavior = (): ScrollBehavior =>
     window.matchMedia("(prefers-reduced-motion: reduce)").matches
@@ -266,7 +269,7 @@ function Workspace({
             <div>
               <strong>{t("Solo en este equipo", "Only on this device")}</strong>
               <small>
-                {t("Sin proveedores conectados", "No connected providers")}
+                {t("Tú controlas el acceso de IA", "You control AI access")}
               </small>
             </div>
           </div>
@@ -730,6 +733,9 @@ function Workspace({
               )}
               {page === "lab" && <Lab api={api} busy={busy} act={act} />}
               {page === "neuro" && <Neuro />}
+              {page === "agents" && (
+                <Agents key={space} api={api} busy={busy} act={act} />
+              )}
               {page === "privacy" && (
                 <>
                   <div className="page-heading">
@@ -757,8 +763,8 @@ function Workspace({
                         </h2>
                         <p>
                           {t(
-                            "Las fuentes se guardan localmente. Esta versión no hace llamadas a modelos, no tiene telemetría y no envía tu archivo a Internet.",
-                            "Sources are stored locally. This version makes no model calls, has no telemetry, and does not send your archive to the Internet.",
+                            "Las fuentes se guardan localmente y no hay telemetría. Si autorizas una conexión IA, su cliente podrá consultar el contexto permitido y procesarlo con su proveedor.",
+                            "Sources are stored locally and there is no telemetry. If you authorize an AI connection, its client can read the permitted context and process it with its provider.",
                           )}
                         </p>
                         <p className="muted">

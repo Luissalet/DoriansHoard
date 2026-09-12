@@ -1,5 +1,13 @@
 # Arquitectura y amenazas del primer hito
 
+## Ampliación MCP
+
+`mcp_server.py` publica nueve herramientas stdio y no abre bases directamente. Reenvía llamadas con un token a `/agent/call` en loopback, sin proxies de entorno ni redirecciones. `agents.py` comprueba permisos, archivo fijado a la credencial, pausa, caducidad y revocación en cada llamada. Mantiene el bloqueo de controles durante la autorización/ejecución; las rutas de propietario rechazan peticiones que incluyan un token de agente. Sigue sin existir autenticación frente a otro proceso con acceso completo a la cuenta de Windows.
+
+`read_context` compila declaraciones propias confirmadas vigentes con dependencias válidas y, por separado, aportaciones de IA aceptadas. El original y la inferencia no cambian de tipo por aceptación. `get_changes` calcula una revisión del contexto compartible actual, incluido el efecto de retiradas y borrados. No guarda copias de texto eliminado en su registro. La procedencia comunicada por una IA no se equipara a una fuente original del propietario.
+
+Las aportaciones viven en `agents.sqlite3`, separadas del archivo y del laboratorio. Los reintentos son idempotentes por conexión e identificador; contenido distinto causa conflicto; el marcador de una aportación borrada impide resucitarla por reintento. Ninguna herramienta permite decidir una revisión, borrar, otorgar permisos ni responder una prueba ciega. El propietario gestiona estas acciones en la interfaz. Contratos, configuración, portabilidad y límites: [MCP.md](MCP.md).
+
 ## Contratos
 
 La fuente conserva título, texto original, tipo epistemológico, autor, fecha de registro e identificador. Su digest SHA-256 incluye texto, tipo y autor para detectar duplicados sin confundir testimonios de autores distintos. El título no participa en la deduplicación.

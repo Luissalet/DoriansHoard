@@ -1,5 +1,19 @@
 # Validación de la primera versión
 
+## Ampliación de conexiones IA y MCP
+
+Ejecutada el 12 de septiembre de 2026:
+
+- **44 pruebas Python** pasan: las 32 originales más 12 casos de permisos, pausa por defecto, caducidad, revocación persistente, rechazo de rutas de propietario con credencial IA, denegación de herramientas administrativas, aislamiento de archivos, procedencia, privacidad de pendientes, aceptación y retirada, reintentos, borrado, paginación y conservación del sello ciego. Se mantienen los dos avisos de deprecación descritos abajo.
+- **4 recorridos de Edge** pasan en una ejecución conjunta: tres originales y uno nuevo de extremo a extremo. El nuevo usa un cliente oficial MCP y un servidor stdio en procesos separados, conectados a la aplicación real de prueba. Crea conexiones desde la UI, descubre nueve herramientas, prueba llamadas válidas a las nueve, comprueba permisos insuficientes, envía/reintenta una inferencia, la acepta desde la UI y la recupera desde otra credencial con atribución intacta. Prepara una actividad por MCP, el propietario responde desde la UI y el cliente verifica su sello SHA-256. Después retira la aportación, detecta el cambio, pausa, revoca y verifica el bloqueo y el borrado. Se volvió a ejecutar ese recorrido tras fijar UTF-8 en el cliente de diagnóstico y recapturar el escritorio desde el inicio: también pasa.
+- TypeScript y compilación de producción pasan. El detector Impeccable de la ampliación devuelve `[]`. Capturas ES de escritorio (1440 px) y EN de móvil (390 px), sin desbordamiento; los textos originales siguen en su idioma.
+- Revisión independiente Impeccable de la ampliación: `ship`, sin correcciones materiales pendientes en las capturas y archivos revisados.
+- La prueba final usa `.impeccable/review/mcp-e2e-3/`, distinta de `data/`. Las pruebas no invocan proveedores de modelos ni fabrican métricas de aprendizaje personal.
+- **Uso real desde esta tarea:** conexión `selfhoard` registrada y consultada en Codex. Esta tarea llamó a `connection_status`, `read_context` y `submit_update` mediante una sesión real MCP stdio. Se dejó una aportación sobre un requisito explícito de este proyecto, pendiente de revisión. La UI se abrió y verificó también con el MCP de navegador (CUA), incluida la conservación correcta de caracteres españoles. No se confirmó automáticamente como biografía.
+- La credencial real permite únicamente `context.read` y `updates.write`, caduca a los 30 días y se puede revocar en **Conexiones IA**. El catálogo de herramientas de una conversación ya abierta requiere que su cliente recargue la conexión; la prueba del protocolo no se presenta como evidencia de recarga automática de esa conversación.
+
+Los controles MCP no son una barrera contra un proceso con shell y acceso arbitrario a la misma cuenta de Windows. No hay prueba con un modelo neuronal personal, proveedor externo, aprendizaje continuo, notificaciones push ni ejecución de las simulaciones de mosca citadas.
+
 Fecha: 12 de septiembre de 2026. Las pruebas usan exclusivamente datos sintéticos y carpetas distintas del archivo personal.
 
 ## Resultados ejecutados

@@ -178,7 +178,7 @@ class Store:
                 db.execute('DELETE FROM sources WHERE id=?', (source_id,))
         return result
 
-    def search(self, query, as_of=None):
+    def search(self, query, as_of=None, *, include_all=False, offset=0, limit=30):
         # Conservative keyword retrieval, never a generated biographical answer.
         stop = set('que cual cuales es el la los las mi mis un una de del en por para y a al lo se me con como what which is are my the a an of in for and do i does have can you know about'.split())
         terms = [t for t in re.findall(r'\w+', normalized(query)) if t not in stop][:24]
@@ -211,12 +211,13 @@ class Store:
 
         results = []
         for claim in archive['claims']:
-            if not terms or claim['id'] in blocked:
+            if (not terms and not include_all) or claim['id'] in blocked:
                 continue
             words = set(re.findall(r'\w+', normalized(claim['text'])))
             if all(t in words for t in terms):
                 results.append(claim | {'source_title': sources[claim['source_id']]['title']})
-        return {'status': 'evidence' if results else 'unknown', 'matches': results[:30],
+        return {'status': 'evidence' if results else 'unknown', 'matches': results[offset:offset+limit],
+                'total': len(results), 'has_more': len(results) > offset+limit,
                 'method': 'literal_keywords', 'as_of': day}
 
     def restore(self, data: Archive):

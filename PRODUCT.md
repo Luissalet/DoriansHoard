@@ -17,7 +17,7 @@ Archivo personal con procedencia verificable, interpretaciones revisables y port
 Uso personal local en Windows. El usuario ha solicitado español e inglés y construir directamente una interfaz clara y funcional. Las fuentes mantienen su idioma original.
 
 ## Capabilities and Constraints
-Sin proveedor de inferencia en el primer hito. Sin transmisión de fuentes ni publicación. No presentar búsquedas como predicciones o validación científica. La demo se identifica como sintética y usa una base distinta.
+Sin proveedor de inferencia integrado ni publicación. Las conexiones MCP autorizadas pueden consultar contexto y aportar novedades; el cliente IA puede procesar ese contexto con su proveedor. Las aportaciones exigen revisión y conservan su categoría/autor. No presentar búsquedas como predicciones o validación científica. La demo se identifica como sintética y usa una base distinta.
 
 ## Evidence on Hand
 Self_Hoard_Informe.md y Self_Hoard_Investigacion_y_Plan.docx aportados desde Downloads. Se usan como especificación, no como biografía del usuario. El paquete técnico mencionado en ellos no está adjunto.
