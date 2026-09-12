@@ -1,80 +1,165 @@
 # Self Hoard
 
-**El reflejo / The reflection** permite preparar un retrato, revisar recuerdos y maneras de expresarse y conversar con un modelo elegido. Incluye muletillas, ritmo, humor, vocabulario y manierismos descritos con ejemplos literales, frecuencia y contexto. Cada envío muestra datos y destino antes de usar el modelo. [Funcionamiento, pruebas y límites](docs/REFLECTION.md).
+### What would they say? What would they choose? Why?
 
-**El reflejo / The reflection** supports a portrait, reviewed memories and expression examples, and conversation with a selected model. Catchphrases, rhythm, humor and mannerisms retain literal evidence, frequency and context. Preview personal data and destination before sending. The general implementation plan is still in progress; family reader access is not yet enabled.
+**A local-first research prototype for conversational reflections of people — built from their memories, preferences, decisions and ways of speaking.**
 
-Archivo personal local con fuentes, afirmaciones revisables y un laboratorio visual de decisiones. Primera implementación del plan aportado el 12 de septiembre de 2026. Interfaz completa en español e inglés; las fuentes conservan su idioma original.
+[Español](README.es.md) · [Research](#a-research-question-you-can-test) · [Run locally](#run-locally-on-windows) · [Connect an AI](docs/MCP.md) · [Portfolio](https://luissalet.github.io/Portfolio/#projects)
 
-## Abrir en Windows
+![A generated choice, uncertainty and supporting memories in Self Hoard](docs/media/reflection-demo.png)
 
-Haz doble clic en **Iniciar Self Hoard.cmd**. La aplicación se abre en http://127.0.0.1:8741. El servidor se ejecuta oculto en este equipo. **Detener Self Hoard.cmd** lo detiene.
+*Actual application, fictional persona and a real local Ollama response. The English interface preserves the original Spanish memories and conversation. This demonstrates an integration, not personality accuracy.*
 
-En este equipo las dependencias ya están instaladas y la interfaz compilada. En una copia nueva hacen falta Python 3.11+ y Node.js/npm; el iniciador prepara el entorno y compila la interfaz cuando faltan. Esa instalación inicial usa Internet. La aplicación no tiene telemetría ni un proveedor de modelos propio; una IA a la que autorices puede consultar contexto local y procesarlo con su proveedor.
+## A person is more than a list of facts
 
-## Recorrido inicial
+The ambition is personal continuity: a family might one day ask a reflection of a parent for an anecdote, advice, or an opinion about a new situation. That requires preserving what mattered to them, how they weighed alternatives, exceptions to their preferences, and the phrases they used with different people.
 
-1. Entra en **Nueva fuente**, pega tus palabras o importa TXT/Markdown e indica autoría y tipo.
-2. Abre la fuente y propone una cita literal. Puedes añadir una interpretación separada y un período de validez.
-3. En **Mi archivo**, abre la afirmación y revisa su cita antes de confirmarla.
-4. Busca palabras exactas de declaraciones propias confirmadas. La búsqueda es literal, sin un modelo de lenguaje; no responde preguntas semánticas ni traduce entre idiomas.
-5. Corrige una afirmación para rechazarla e invalidar interpretaciones dependientes. Una negación no inventa una preferencia alternativa.
-6. En **Mis datos**, exporta JSON o Markdown. La restauración JSON requiere un archivo vacío. El borrado se hace desde cada fuente y muestra antes cuántos derivados elimina.
+Self Hoard makes those ingredients inspectable. A memory keeps its source. An interpretation stays an interpretation. A catchphrase keeps its context and frequency. A generated answer remains a generated answer.
 
-El selector inferior permite abrir un **ejemplo sintético**, guardado aparte de tu archivo. Los documentos de investigación están copiados en `docs/reference/` y excluidos de Git. No se han importado como biografía del propietario.
+The current release is a working, single-owner Windows prototype. Family reader access, longitudinal validation and complete archive encryption are still ahead. It does not claim to reproduce consciousness or a human brain.
 
-## Laboratorio y neurociencia
+## Follow one reflection from evidence to answer
 
-El laboratorio incluye dos escenarios con actividades, restricciones de tiempo y predicciones ocultas. El agente actual usa una regla de utilidad que configuras a mano: **todavía no es un gemelo aprendido de tus datos**. Elige una opción, ninguna o saltar y después observa la comparación. Puedes exportar o borrar sus registros por separado.
+1. **Preserve the words.** Add sources and memory cards with literal excerpts and attribution. Owner statements, family recollections and AI interpretations remain distinguishable.
+2. **Review the person being represented.** Confirm memories, criteria and expression examples. Catchphrases, humor, rhythm and described gestures can specify relationship, language, period, frequency, when to use them and when to avoid them.
+3. **Ask a situated question.** “Would they enjoy this?”, “Which option would they choose?”, “How would they analyze it?” or “Tell me an anecdote.”
+4. **Inspect the exact model input.** Preview evidence, instructions, destination and configured limits before sending. Local inference is the default.
+5. **Read an attributed simulation.** Responses retain citations; predictions and analyses must express uncertainty. Withdrawing evidence invalidates dependent context and dialogue.
 
-La investigación de [neurociencia y mundos del gemelo](docs/Neurociencia_y_mundos_del_gemelo.md) cubre FlyWire, MaleCNS, NeuroMechFly, Eon, MICrONS, DOOMFLY y Fly64. Distingue resultados publicados, declaraciones de desarrolladores y propuestas propias.
+The synthetic persona above prefers a forest walk after a noisy week, but makes an exception for a close friend's birthday. “Bueno, vamos por partes” is a contextual expression example, not an instruction to insert a catchphrase into every answer.
 
-## Arquitectura
+## What is implemented
 
-- `selfhoard/store.py`: núcleo SQLite transaccional con procedencia y dependencias.
-- `selfhoard/models.py`: contratos validados y formato de exportación v1.
-- `selfhoard/api.py`: API local, límites de origen, cookie de sesión y protección de escrituras.
-- `selfhoard/lab.py`: política de demostración y predicciones selladas; almacenamiento separado.
-- `frontend/src/`: React/TypeScript, idiomas, escenas y controles.
-- `tests/`: invariantes de memoria, privacidad, portabilidad y laboratorio.
-- `frontend/e2e/`: recorridos reales en navegador y capturas de escritorio/móvil.
+| Area | Available now | Boundary |
+| --- | --- | --- |
+| Personal archive | SQLite sources, literal quotes, review, attribution, dependency invalidation, JSON/Markdown export | Literal lexical retrieval; archive export is not a complete reflection backup |
+| Reflection | Portrait, memory and expression cards, exact input preview, cited conversation, ES/EN interface | No personal LLM fine-tuning, audio style extraction or voice cloning |
+| Model connections | Ollama, local OpenAI-compatible servers, OpenAI Responses and Anthropic Messages adapters | Real Ollama checked; cloud adapters have no live credential-based verification yet |
+| AI interoperability | Ten MCP tools, scoped reads, change polling, attributed update inbox, expiry and revocation | AI clients cannot approve evidence or grant themselves access |
+| Decision research API | Reviewed episodes, regularized pairwise preference fitting, abstention near ties, sealed trials | Human-supplied feature ratings; uncalibrated estimates; evaluation UI pending |
+| Visual laboratory | Activity scenarios, manual priorities, hidden predictions and revealed comparisons | Manual-policy demonstration, not a learned digital twin or neural simulation |
 
-## Datos y límites
+## A research question you can test
 
-Los archivos de datos se guardan en `data/`, excluido de Git. El archivo personal y la demo usan bases distintas; los laboratorios también. No hay sincronización, telemetría, cliente de inferencia ni API remota de modelos. Las fuentes tipográficas se sirven desde este equipo. Los enlaces de investigación solo abren sitios externos al pulsarlos.
+**Can a reflection preserve a person's choices, explanations and expression while making its evidence and uncertainty inspectable?**
 
-La sesión local reduce accesos accidentales desde otros sitios; **no es autenticación entre usuarios del sistema operativo**. El almacenamiento aún no está cifrado por la aplicación. El borrado lógico y de páginas SQLite se prueba con datos sintéticos, pero no garantiza eliminación de copias externas, instantáneas del sistema ni remanencia de hardware. Los documentos originales que aportaste siguen en Downloads.
+These are separate targets. Sounding familiar is not evidence of choosing accurately; choosing correctly does not establish that a stated reason matches the person's reason.
 
-La conexión MCP y la consulta de contexto por permisos ya están disponibles: [conectar IA y compartir conocimiento](docs/MCP.md). Incluyen nueve herramientas, bandeja de revisión, atribución, detección de cambios, caducidad y revocación. El cliente MCP elige el modelo; Self Hoard no incluye un proveedor de inferencia propio.
+The experimental decision API stores held-out answers separately. It seals a prediction and model version before receiving the human answer, then reports choice agreement and Brier score against a uniform reference. A person can rate the match between reasons. Held-out labels are excluded from conversational retrieval. These mechanisms support experiments; they are not results from a participant study.
 
-El MVP completo del informe sigue pendiente: recuperación semántica, entrevista adaptativa, modelo personal, evaluación longitudinal e integración con Faustus. Las pruebas de software no son validación psicológica ni científica.
+Useful next investigations:
 
-## Desarrollo y pruebas
+- **Preference generalization:** held-out situations, changing constraints, explicit exceptions and additional simple baselines.
+- **Expression fidelity:** context-appropriate phrasing, overused mannerisms and relationship-specific language.
+- **Evidence reliability:** unsupported statements, attribution mistakes, withdrawal and justified abstention.
+- **Change over time:** evolving preferences without silently replacing earlier versions of a person.
 
-Desde la raíz, en PowerShell:
+The [neuroscience notes](docs/Neurociencia_y_mundos_del_gemelo.md) examine connectomes and embodied simulation, including FlyWire and NeuroMechFly, as inspiration for testing behavior in controlled environments. Self Hoard does not execute those simulators or equate a language-model reflection with a connectome.
 
-```powershell
-.\.venv\Scripts\python.exe -m selfhoard
-.\.venv\Scripts\python.exe -m pytest -q
+## Engineering worth inspecting
+
+```mermaid
+flowchart LR
+    S[Original sources] --> R[Attributed, reviewed evidence]
+    R --> P[Portrait and expression context]
+    P --> V[Exact input preview]
+    V --> M[Chosen model]
+    M --> A[Cited conversational reflection]
+    R --> D[Experimental preference model]
+    D --> E[Sealed held-out evaluation]
+    R --> C[Permissioned MCP reads]
+    I[AI contribution inbox] --> R
 ```
 
-En `frontend`:
+- **Evidence lifecycle:** `store.py` and `reflection.py` track review, provenance and dependencies. Source withdrawal is exercised across storage, UI and MCP.
+- **Model boundary:** `providers.py` binds each send to its approved provider snapshot. Local destinations are loopback-only, remote endpoints are fixed; there are no automatic retries, tool calls or fallback providers.
+- **Agent boundary:** `agents.py` and `mcp_server.py` expose owner-granted scopes. `reflection.read` is independent of ordinary context access. Accepted AI reports retain attribution.
+- **Evaluation boundary:** `decisions.py` separates fitting data from held-out answers. Feature contributions explain the formula, not private human thought.
+- **Product layer:** React 19, TypeScript and locally served fonts over FastAPI and SQLite, with bilingual UI and separate synthetic demo storage.
+
+[Architecture](docs/ARCHITECTURE.md) · [Reflection contracts](docs/REFLECTION.md) · [Implementation plan](docs/IMPLEMENTATION_PLAN.md)
+
+## Verification, with its limits
+
+Recorded on **12 September 2026**:
+
+- **61 Python tests passed**, covering provenance, permissions, invalidation, provider boundaries and experimental evaluation.
+- **5 Microsoft Edge end-to-end flows passed**, including real MCP client/server processes, review, withdrawal and revoked access. The conversation browser test uses a synthetic HTTP model fixture.
+- **One real Ollama check** with `qwen3-coder:30b` returned a synthetic-person prediction with two valid citation IDs and uncertainty.
+- TypeScript/Vite production build and Python dependency checks passed.
+
+These verify software and integrations. They do not establish psychological validity, identity fidelity, accuracy on real people, or semantic support for every generated sentence. See the [validation record](docs/VALIDATION.md) for scope and known warnings.
+
+## Run locally on Windows
+
+Prerequisites: **Python 3.11+**, **Node.js 22 LTS with npm**, and Git. First installation downloads dependencies. Conversations also need a model connection; model weights are not bundled.
 
 ```powershell
+git clone https://github.com/Luissalet/SelfHoard.git
+cd SelfHoard
+& '.\Iniciar Self Hoard.cmd'
+```
+
+The launcher prepares Python, builds the interface when missing and opens **http://127.0.0.1:8741**. Choose English or Español in the header. **Synthetic example / Ejemplo sintético** uses separate demo data. Prepare a portrait and reviewed memories, then configure **The reflection → Model**.
+
+**Detener Self Hoard.cmd** stops the server. After pulling an update, refresh dependencies and rebuild before restarting:
+
+```powershell
+.\.venv\Scripts\python.exe -m pip install -r requirements-lock.txt
+Push-Location frontend
 npm.cmd ci
 npm.cmd run build
+Pop-Location
 ```
 
-Las pruebas de navegador usan Edge y un servidor de prueba en el puerto 8742. Inícialo con una carpeta de datos de prueba, distinta de `data`, antes de ejecutar `npm.cmd run test:e2e`:
+### Reproduce the checks
+
+```powershell
+.\.venv\Scripts\python.exe -m pytest -q
+.\.venv\Scripts\python.exe -m pip check
+```
+
+For browser tests, start a separate test server in one terminal:
 
 ```powershell
 .\.venv\Scripts\python.exe -m selfhoard --port 8742 --data-dir .impeccable/review/test-data
 ```
 
-La API valida que el origen coincida con el servidor. Para comprobar la aplicación completa usa la compilación servida por Python. El servidor Vite está destinado a edición local y necesita un proxy que preserve la política de origen; no es el recorrido de producción probado.
+In another terminal, with Microsoft Edge installed:
 
-## English quick start
+```powershell
+cd frontend
+npm.cmd run test:e2e
+```
 
-Double-click **Iniciar Self Hoard.cmd**, then choose **English** in the top bar. Add a source, propose a verbatim quote, and confirm it in **My archive**. Text remains in its original language. **My data** exports JSON/Markdown and restores into an empty archive.
+Opt-in real-model check, using synthetic data on port 8742 and an already installed Ollama model:
 
-The **Laboratory** is an explicit manual-policy demonstration, not a trained personal twin. Predictions stay hidden until you answer. **AI connections** lets local MCP clients read permitted context and submit reports for owner review. Accepted AI reports preserve their attribution. A connected client may process the context with its model provider. Application-level encryption and OS-user authentication are not implemented yet. See [MCP setup and controls](docs/MCP.md).
+```powershell
+.\.venv\Scripts\python.exe scripts/smoke_reflection_local.py --model qwen3-coder:30b --output .impeccable/review/local-reflection-result.json
+```
+
+## Connect another AI
+
+An MCP client can read permitted context, check for changes, contribute attributed knowledge to an inbox or run a permitted activity trial. The owner controls scopes, review, pause, expiry and revocation in **AI connections**. Reading the reflection requires its own permission.
+
+The application provides client configuration. Keep its credential private. See [MCP setup, tools and trust boundaries](docs/MCP.md). Change detection currently uses polling, not push notifications.
+
+## Data and trust boundaries
+
+Personal data lives under the ignored `data/` directory, separate from the demo. There is no telemetry. Model requests send approved context to the selected destination; external MCP clients have their own providers and retention behavior.
+
+Windows DPAPI protects cloud-provider keys. **The full archive is not encrypted, and the application does not authenticate different users of the same Windows account.** Local origin checks are not an OS sandbox. Revocation blocks future reads; it cannot erase copies another client already retained. This prototype is intended for local use, not public multi-user hosting.
+
+No personal archive, private planning documents or credentials are included. Published screenshots use synthetic data only.
+
+## Research and collaboration
+
+Built by [Luis Salete](https://github.com/Luissalet). I am interested in collaborations around human-centered AI, models of preference, evaluation, personal knowledge systems and digital legacy.
+
+For researchers: propose a protocol, baseline or failure case. For engineers and recruiters: follow the evidence-to-answer flow and reproducible tests. [Open an issue](https://github.com/Luissalet/SelfHoard/issues) with a concrete question or synthetic example; please do not post private biographies or credentials.
+
+The [implementation plan](docs/IMPLEMENTATION_PLAN.md) tracks family readers, complete protected backups, semantic retrieval, longitudinal evaluation and the remaining work.
+
+## License
+
+A license for the original project code has not been selected yet. Public availability is not an additional license grant. Dependencies retain their respective licenses.
