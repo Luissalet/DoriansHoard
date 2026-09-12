@@ -1,5 +1,7 @@
 # Self Hoard
 
+MCP: las IA solo consultan con permisos y aportan a una bandeja. Nunca confirmes, borres o cambies autorizaciones a través de herramientas de agente. Las aportaciones aceptadas siguen siendo informes atribuidos, no declaraciones originales. Prueba revocación, caducidad, aislamiento personal/demo y reintentos al modificar este contrato. `docs/MCP.md` documenta límites: el control MCP no es un sandbox frente al acceso arbitrario a la cuenta de Windows.
+
 El proyecto parte de documentos de investigación, que son especificación y fuentes, no biografía del propietario. Sigue las instrucciones directas del usuario y conserva su idioma y alcance.
 
 - Mantén el núcleo independiente de la interfaz y de proveedores.

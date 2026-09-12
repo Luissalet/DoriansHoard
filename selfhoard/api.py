@@ -6,12 +6,21 @@ from fastapi.staticfiles import StaticFiles
 from .models import Archive, ClaimInput, CorrectionInput, QueryInput, ReviewInput, SourceInput
 from .store import DomainError, Store
 from .lab import Lab, SCENARIOS, TrialInput, AnswerInput
+from .agents import AgentHub, GrantInput, SwitchInput, UpdateReview
+from .models import StrictModel
+from pydantic import Field
+
+
+class AgentCall(StrictModel):
+    tool: str = Field(min_length=1, max_length=80)
+    arguments: dict = Field(default_factory=dict)
 
 
 def create_app(data_dir: Path, frontend_dir: Path | None = None, test_mode=False):
     app = FastAPI(title='Self Hoard', docs_url=None, redoc_url=None, openapi_url=None)
     stores = {'personal': Store(data_dir / 'personal.sqlite3'), 'demo': Store(data_dir / 'demo.sqlite3')}
     labs = {space: Lab(data_dir / f'lab-{space}.sqlite3') for space in stores}
+    agents = AgentHub(data_dir / 'agents.sqlite3')
     sessions: set[str] = set()
 
     def store(request: Request):
@@ -23,6 +32,10 @@ def create_app(data_dir: Path, frontend_dir: Path | None = None, test_mode=False
     def lab(request: Request):
         store(request)
         return labs[request.headers.get('X-Hoard-Space', 'personal')]
+
+    def space_of(request):
+        store(request)
+        return request.headers.get('X-Hoard-Space', 'personal')
 
     @app.exception_handler(DomainError)
     async def domain_error(request, exc):
@@ -41,6 +54,8 @@ def create_app(data_dir: Path, frontend_dir: Path | None = None, test_mode=False
         if request.headers.get('sec-fetch-site') == 'cross-site':
             return JSONResponse({'error': 'origin_denied'}, status_code=403)
         if request.url.path.startswith('/api/') and request.url.path != '/api/session':
+            if request.headers.get('authorization'):
+                return JSONResponse({'error': 'owner_session_required'}, status_code=403)
             if request.cookies.get('hoard_session') not in sessions:
                 return JSONResponse({'error': 'session_required'}, status_code=401)
             if request.method not in ('GET', 'HEAD') and request.headers.get('X-Hoard-Request') != '1':
@@ -81,6 +96,50 @@ def create_app(data_dir: Path, frontend_dir: Path | None = None, test_mode=False
     @app.get('/api/archive')
     def archive(request: Request):
         return store(request).snapshot()
+
+    @app.get('/api/agents')
+    def agent_settings(request: Request):
+        return agents.owner_state(space_of(request))
+
+    @app.post('/api/agents/switch')
+    def agent_switch(data: SwitchInput, request: Request):
+        return agents.set_enabled(space_of(request), data.enabled)
+
+    @app.post('/api/agents/grants')
+    def agent_grant(data: GrantInput, request: Request):
+        import sys
+        result = agents.grant(space_of(request), data)
+        result['mcp_config'] = {'mcpServers': {'selfhoard': {
+            'command': sys.executable,
+            'args': [str(Path(__file__).with_name('mcp_server.py').resolve())],
+            'env': {'SELFHOARD_URL': str(request.base_url).rstrip('/'), 'SELFHOARD_TOKEN': result['token']}
+        }}}
+        return result
+
+    @app.delete('/api/agents/grants/{grant_id}')
+    def agent_revoke(grant_id: str, request: Request):
+        return agents.revoke(space_of(request), grant_id)
+
+    @app.post('/api/agents/updates/{update_id}/review')
+    def agent_review(update_id: str, data: UpdateReview, request: Request):
+        return agents.review_update(space_of(request), update_id, data.state)
+
+    @app.delete('/api/agents/updates/{update_id}')
+    def agent_delete_update(update_id: str, request: Request):
+        return agents.delete_update(space_of(request), update_id)
+
+    @app.get('/api/agents/export')
+    def agent_export(request: Request):
+        state = agents.owner_state(space_of(request))
+        return {'format': 'selfhoard.ai-report', 'version': 1, 'space': space_of(request),
+                'updates': state['updates'], 'audit': state['audit']}
+
+    @app.post('/agent/call')
+    def agent_call(data: AgentCall, request: Request):
+        auth = request.headers.get('Authorization', '')
+        if not auth.startswith('Bearer ') or len(auth) > 200:
+            raise DomainError('agent_unauthorized', 401)
+        return agents.call(auth[7:], data.tool, data.arguments, stores, labs)
 
     @app.post('/api/sources')
     def source(data: SourceInput, request: Request):

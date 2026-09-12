@@ -37,6 +37,7 @@ colors:
   focus: "#629056"
   arena: "#e9efdf"
   diagram: "#edf2e6"
+  soft: "#e6eee4"
 typography:
   display:
     fontFamily: "Manrope Variable, sans-serif"
@@ -149,7 +150,7 @@ components:
 
 Una superficie clara para leer fuentes y revisar afirmaciones con calma. El verde apagado organiza acciones, selección y navegación; los márgenes amplios y las líneas finas separan información sin convertir cada fila en una tarjeta. La identidad se expresa con Manrope, una marca tipográfica compacta y pequeños iconos de trazo.
 
-Este documento registra la interfaz construida, no una propuesta futura. La dirección procede de `docs/first-surface.md`; los valores se extrajeron de `frontend/src/style.css` y los comportamientos de `App.tsx`, `Lab.tsx`, `Neuro.tsx` y `shared.tsx`. Se contrastó la composición con las seis capturas de archivo, laboratorio y neurociencia en `.impeccable/review/`, en escritorio y móvil. El marco permanece estable entre las cinco secciones implementadas. El idioma de la interfaz cambia entre español e inglés sin traducir las fuentes originales.
+Este documento registra la interfaz construida, no una propuesta futura. La dirección procede de `docs/first-surface.md` y su extensión Operate en `docs/ai-surface.md`; los valores se extrajeron de `frontend/src/style.css` y los comportamientos de `App.tsx`, `Lab.tsx`, `Neuro.tsx`, `Agents.tsx` y `shared.tsx`. Se contrastó la composición con las seis capturas de archivo, laboratorio y neurociencia y las capturas `agents-desktop-es.png` y `agents-mobile-en.png` en `.impeccable/review/`. El marco permanece estable entre las seis secciones implementadas. El idioma de la interfaz cambia entre español e inglés sin traducir las fuentes ni las aportaciones originales.
 
 **Key Characteristics:**
 
@@ -158,6 +159,7 @@ Este documento registra la interfaz construida, no una propuesta futura. La dire
 - Afirmación, tipo, estado y procedencia visibles como información distinta.
 - Escenas esquemáticas con etiquetas explícitas de demostración o ilustración.
 - Navegación estable en escritorio y desplazable horizontalmente en móvil.
+- Bandeja de aportaciones IA como superficie principal, con permisos y conexiones en segundo plano.
 
 ## Colors
 
@@ -183,7 +185,7 @@ La paleta combina verdes poco saturados con blancos cálidos; ámbar y rojo tien
 
 **The Explicit State Rule.** El color acompaña una etiqueta textual de estado; no reemplaza tipo, atribución ni explicación del resultado.
 
-Los tokens reutilizados están en el frontmatter. Los matices exclusivos de los dibujos permanecen en su CSS; `--soft` está declarado pero no se usa y no se promueve a token normativo. Las rampas del sidecar son muestras generadas para el panel, no una escala aplicada a la interfaz.
+Los tokens reutilizados están en el frontmatter. Los matices exclusivos de los dibujos permanecen en su CSS. El verde suave (`soft`) se usa ahora en los filtros activos de aportaciones IA y en el aviso de configuración preparada. Las rampas del sidecar son muestras generadas para el panel, no una escala aplicada a la interfaz.
 
 ## Typography
 
@@ -195,7 +197,7 @@ El carácter es preciso y ligero, con titulares de espaciado estrecho y texto de
 
 ### Hierarchy
 
-- **Display:** el rol `display` gobierna los h1, con salto de línea explícito y segunda frase en salvia. En móvil se fija a (33px).
+- **Display:** el rol `display` gobierna los h1 del archivo, fuentes, laboratorio, neurociencia y datos, con salto de línea explícito y segunda frase en salvia. En móvil se fija a (33px). Conexiones IA usa un título de una sola tinta y tamaño más compacto (`clamp(26px, 3vw, 38px)`), con espaciado de (-0.03em), sin salto forzado; este tamaño propio se mantiene en móvil.
 - **Headline:** el rol `headline` es el h2 general; el panel de evidencia usa (16px), el explicador científico (24px) y su texto de enlace final (26px; 24px en móvil).
 - **Title:** el h3 general sigue `title`; las afirmaciones de la lista usan `claim`, con ancho máximo de (75ch), y pasan a (15px) en móvil.
 - **Body:** la raíz usa `body`; la introducción de página y el texto largo usan normalmente `paragraph`. La introducción se limita a (66ch); las notas, filas de investigación y metadatos reducen el tamaño según su rol.
@@ -213,6 +215,8 @@ Sin selección, el archivo usa una columna. Con evidencia abierta, usa columnas 
 - Hasta (720px): el marco se vuelve de bloque. La marca y el selector de archivo ocupan la primera fila, la navegación se desplaza horizontalmente y el contenido tiene márgenes de (19px). Los paneles usan relleno de (20px). La bibliografía sitúa nombre y enlace sobre el resumen; el pie se apila.
 
 La densidad es mixta: filas de lectura amplias, controles y notas compactos. No se fuerza todo a una cuadrícula de tarjetas. Las cadenas largas de fuentes, citas y sellos pueden partirse; el texto fuente conserva saltos y dispone de desplazamiento interno con altura máxima de (320px).
+
+Conexiones IA mantiene el marco y limita su superficie a (1240px). Tras el título aparece el estado real de acceso, entre dos divisores, con la acción de pausa/habilitación. Debajo, una bandeja flexible ocupa la columna principal y un formulario de (340px) ocupa la secundaria, separados por (48px); esta última lleva divisor izquierdo y relleno de (28px). Hasta (1200px), pasa a (290px), separación de (28px) y relleno de (20px). Hasta (900px), la bandeja precede al formulario en una sola columna, el divisor se coloca arriba y el estado de acceso se apila. El historial reduce sus tres columnas a dos. Los textos de aportación y procedencia conservan saltos, parten cadenas largas y admiten el idioma original.
 
 ## Elevation & Depth
 
@@ -240,6 +244,8 @@ El paso del puntero oscurece primaria y destructiva; secundaria se tiñe suaveme
 
 Las etiquetas de estado son informativas, no filtros. Mantienen texto, fondo suave y esquinas pequeñas. Los filtros del archivo y las capas de neurociencia son botones con `aria-pressed`, subrayado inferior de (2px) y cambio de tinta; no implementan un widget ARIA de pestañas.
 
+La bandeja IA usa filtros de estado con `aria-pressed`, fondo `soft`, esquinas de (6px) y relleno de (8px 10px), en vez del subrayado del archivo. La etiqueta ámbar de cada aportación identifica su categoría —cita comunicada, inferencia o novedad— incluso cuando está aceptada; el estado de revisión lo determina el filtro activo y las acciones disponibles, no ese color.
+
 ### Cards / Containers
 
 El panel de evidencia es blanco, con borde fino, sin sombra y relleno `surface-inset`. Contiene la afirmación, el estado, la cita literal entre divisores, metadatos en lista de definiciones, acciones y un historial desplegable. Formularios y detalle de fuente comparten forma, con rellenos respectivos de (28px) y (26px) antes del ajuste móvil.
@@ -254,7 +260,19 @@ Los campos requeridos y límites usan validación nativa; los fallos de operaci�
 
 ### Navigation
 
-Cinco destinos: archivo, fuentes, laboratorio, neurociencia y datos. Son botones dentro de navegación etiquetada, con `aria-current="page"` para el destino activo. La marca vuelve al archivo. El selector ES/EN actualiza `document.documentElement.lang` y recuerda el idioma localmente. La navegación móvil conserva los cinco destinos en una fila desplazable; no añade menú desplegable. Hay enlace de salto al contenido visible al recibir foco.
+Seis destinos, en este orden: archivo, fuentes, laboratorio, neurociencia, datos y conexiones IA. Son botones dentro de navegación etiquetada, con `aria-current="page"` para el destino activo. La marca vuelve al archivo. El selector ES/EN actualiza `document.documentElement.lang` y recuerda el idioma localmente. La navegación móvil conserva los seis destinos en una fila desplazable; no añade menú desplegable. Hay enlace de salto al contenido visible al recibir foco. El texto lateral mantiene el almacenamiento local y aclara que el propietario controla el acceso de IA.
+
+### AI connections and attributed reports
+
+La bandeja conserva la lectura plana del archivo: aportaciones en elementos `article`, separadas por borde inferior y relleno de (24px 0), sin sombra. Nombre de la conexión y fecha aparecen arriba en (12px); el título usa (18px). Categoría, texto original y procedencia desplegable preceden a las acciones. Una aportación pendiente ofrece aceptar, rechazar y eliminar; una aceptada ofrece retirar del contexto y eliminar. Aceptar conserva autor y categoría: nunca reclasifica la aportación como declaración original del propietario. El recuento junto al título indica pendientes, aunque se esté viendo otro filtro.
+
+La eliminación abre confirmación dentro de la propia fila y explica que no retira copias ya recibidas. El historial usa `details`, identifica actor, acción y resultado, muestra hasta las últimas 100 acciones y ofrece exportación. No añade diálogo modal, sombras ni animación nueva.
+
+El formulario secundario reutiliza campos, botones y foco visible existentes. Sus etiquetas usan (13px), con separación vertical de (20px). Un `fieldset` con `legend` agrupa cuatro permisos independientes: consultar contexto, aportar novedades, leer fuentes completas y proponer actividades. Cada permiso tiene checkbox nativo de (16px), título y explicación; el verde de acción marca la selección. La configuración inicial selecciona consultar contexto y aportar novedades. El nombre es obligatorio, con máximo de (80) caracteres; la caducidad permite (7), (30) o (90) días. Crear queda deshabilitado mientras se procesa una operación, falta nombre o permiso, o permanece visible una configuración recién creada.
+
+La configuración preparada aparece en un contenedor `soft`, con borde, curva `surface`, relleno de (18px) y `role="status"`. Ofrece descargar el archivo y confirmar que se guardó, con botones de ancho completo. Su texto indica que contiene una clave y que solo se presenta en este paso. Las conexiones creadas se muestran como filas con nombre, permisos, fecha o etiqueta de caducidad/revocación; revocar es una acción textual destructiva.
+
+El estado de acceso tiene encabezado explícito y botón para pausar todas las conexiones o habilitarlas. La pausa afecta al acceso y se muestra sin ocultar la bandeja ni el formulario. La divulgación junto al control explica que MCP es acceso local, pero el cliente IA puede procesar el contexto con su proveedor; el pie aclara que revocar bloquea consultas futuras sin retirar copias anteriores. No representar el indicador local como garantía de que un cliente autorizado nunca transmite contexto.
 
 ### Demonstration scene and research schematic
 
@@ -266,7 +284,11 @@ El laboratorio declara que sus prioridades se configuran manualmente y no son ra
 
 La carga muestra un título y una frase; un fallo de apertura añade indicación de recargar. Un archivo vacío propone añadir una fuente y permite explorar la demo; una búsqueda vacía declara falta de evidencia. La demo usa un aviso persistente sobre su carácter sintético y separado. No hay esqueletos animados, notificaciones flotantes ni diálogo modal de confirmación en la implementación actual.
 
+En conexiones IA, antes de cargar los controles se ofrece «Cargar controles». Un fallo de actualización aparece con `role="alert"` y conserva la bandeja previamente cargada, si existe. La acción Actualizar permite reintentar y la superficie consulta novedades cada (15s). El filtro pendiente vacío muestra «Todo al día»; los otros filtros vacíos declaran que no hay aportaciones allí. Sin conexiones se indica que ninguna IA tiene acceso. El estado pausado y la configuración preparada tienen mensajes propios; no se añade un indicador animado de carga.
+
 Los patrones de accesibilidad descritos se verificaron en código y en una revisión visual acotada; este documento no certifica WCAG ni una auditoría completa de lector de pantalla. La revisión final comunicada resolvió cuatro correcciones y limitó su disposición de entrega a esas correcciones; la ejecución única del detector devolvió `[]`. Esos resultados no acreditan funciones futuras ni validación científica.
+
+La revisión final posterior de la extensión Conexiones IA comunicó disposición `ship`, sin correcciones materiales. Su alcance fue la extensión editorial Operate, con bandeja principal, aportaciones atribuidas, formulario secundario, apilado móvil y divulgación sobre el proveedor. Las capturas documentan ejemplos sintéticos a (1440px) en español y (390px) en inglés; no acreditan una auditoría universal de accesibilidad ni el comportamiento de clientes IA externos.
 
 ## Do's and Don'ts
 
@@ -277,6 +299,8 @@ Los patrones de accesibilidad descritos se verificaron en código y en una revis
 - **Do** probar el texto de interfaz en español e inglés, conservando el idioma original de las fuentes.
 - **Do** mantener visibles las etiquetas de demo y de esquema ilustrativo junto a sus superficies.
 - **Do** aplicar movimiento reducido tanto a CSS como al desplazamiento programático.
+- **Do** presentar autor, categoría y procedencia antes de aceptar una aportación IA, y conservarlos después.
+- **Do** mantener la divulgación sobre el proveedor junto al estado de acceso y la explicación de cada permiso junto a su checkbox.
 
 ### Don't:
 
@@ -285,3 +309,4 @@ Los patrones de accesibilidad descritos se verificaron en código y en una revis
 - **Don't** convertir una etiqueta de revisión en un indicador de exactitud personal o científica.
 - **Don't** presentar la escena manual como un agente aprendido del archivo.
 - **Don't** usar color o animación como única explicación de selección, revisión o resultado.
+- **Don't** presentar una aportación IA aceptada como declaración original del propietario ni prometer que revocar borra copias externas.
