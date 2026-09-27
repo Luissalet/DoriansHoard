@@ -47,6 +47,13 @@ type Turn = {
   question: string;
   answer: { text: string; kind: string; uncertainty: string };
   evidence: Card[];
+  usage?: {
+    provider?: string;
+    model?: string;
+    input_tokens?: number | null;
+    output_tokens?: number | null;
+    estimated_max_cost?: number | null;
+  };
 };
 type Conversation = { id: string; title: string; turns: Turn[] };
 type State = { profile: Persona; cards: Card[]; conversations: Conversation[] };
@@ -259,6 +266,19 @@ export function Reflection({ api, busy, act, refreshArchive }: Props) {
                             <p className="reflection-uncertainty">
                               {turn.answer.uncertainty}
                             </p>
+                          )}
+                          {turn.usage && Object.keys(turn.usage).length > 0 && (
+                            <details className="reflection-usage">
+                              <summary>{t("Modelo y uso de esta respuesta", "Model and usage for this reply")}</summary>
+                              <div>{turn.usage.provider || t("Proveedor desconocido", "Unknown provider")}{turn.usage.model ? ` · ${turn.usage.model}` : ""}</div>
+                              <div>
+                                {t("Tokens de entrada", "Input tokens")}: {turn.usage.input_tokens ?? "—"}
+                                {" · "}{t("salida", "output")}: {turn.usage.output_tokens ?? "—"}
+                              </div>
+                              {typeof turn.usage.estimated_max_cost === "number" && (
+                                <div>{t("Techo estimado, no factura", "Estimated ceiling, not a bill")}: ${turn.usage.estimated_max_cost.toFixed(4)}</div>
+                              )}
+                            </details>
                           )}
                           {turn.evidence.length > 0 && (
                             <details>

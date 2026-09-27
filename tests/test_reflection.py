@@ -42,6 +42,19 @@ def complete(memory,p):
     return memory.complete(packet,ReflectionAnswer(text='Vamos por partes.',kind='reflection',citations=[p['payload']['evidence'][0]['id']]),{})
 
 
+def test_conversation_reopens_saved_model_usage(memory, provider):
+    card(memory)
+    p = preview(memory, provider[1])
+    packet = memory.prepared(p['id'], p['digest'])
+    memory.begin_send(p['id'])
+    usage = {'provider': 'Test local', 'model': 'test', 'input_tokens': 42,
+             'output_tokens': None, 'estimated_max_cost': 0.0123}
+    memory.complete(packet, ReflectionAnswer(text='Vamos por partes.', kind='reflection',
+                                             citations=[p['payload']['evidence'][0]['id']]), usage)
+    turns = memory.conversations()[0]['turns']
+    assert turns[0]['usage'] == usage
+
+
 def test_expression_needs_literal_source_and_retains_attribution(memory,provider):
     with pytest.raises(ValidationError):
         CardInput(kind='voice',title='x',text='Original',expression=ExpressionPattern(exact_examples=['Invented']))
