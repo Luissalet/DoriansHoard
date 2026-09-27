@@ -210,6 +210,11 @@
 .reflection-surface details {
   margin: 14px 0;
 }
+.reflection-usage {
+  color: var(--muted);
+  font-size: 0.85rem;
+  line-height: 1.7;
+}
 .reflection-surface summary {
   cursor: pointer;
   color: var(--accent);

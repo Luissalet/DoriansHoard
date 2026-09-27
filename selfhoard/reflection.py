@@ -386,7 +386,8 @@ class Reflection(Store):
                 turns=[]
                 for t in db.execute('SELECT t.*,p.payload FROM turns t JOIN packets p ON p.id=t.packet_id WHERE p.conversation_id=? ORDER BY t.created_at',(row['id'],)):
                     payload=json.loads(t['payload']); response=json.loads(t['response'])
-                    turns.append({'id':t['id'],'question':payload['question'],'answer':response,'created_at':t['created_at'],
+                    turns.append({'id':t['id'],'question':payload['question'],'answer':response,'usage':json.loads(t['usage']),
+                                  'created_at':t['created_at'],
                                   'evidence':[e for e in payload['evidence'] if e['id'] in response['citations']]})
                 if turns: items.append(dict(row)|{'turns':turns,'title':turns[0]['question'][:100]})
             return items

@@ -8,7 +8,7 @@ El reflejo combina un retrato autorizado, fichas revisadas y un proveedor elegid
 2. **Recuerdos y expresión**: guardar recuerdos, etapas, personas, criterios, palabras, deseos y expresión. Una ficha empieza pendiente. Confirmarla conserva su atribución; un relato familiar o de IA nunca se convierte en declaración propia.
 3. Para expresión: fragmentos literales, ritmo, humor, formas de dirigirse a alguien, narración o gestos descritos; cuándo encaja, cuándo no, relación, periodo, idioma y frecuencia observada. Los fragmentos deben existir literalmente en la fuente. Frecuencia desconocida no es una estimación medida.
 4. **Modelo**: conexión Ollama, servidor local compatible, OpenAI o Anthropic. Local por defecto. Claves externas protegidas con DPAPI de Windows, sin exponerlas a la interfaz. Los destinos externos son fijos y los locales están restringidos a loopback. Un servidor local ajeno podría reenviar datos: es un límite de confianza, no una garantía de esta aplicación.
-5. **Conversar**: situación, gusto, elección, análisis, anécdota o consejo. Revisar contexto exacto, instrucciones, destino y coste máximo antes de enviar. Las respuestas se identifican por tipo y conservan citas. Las conversaciones generadas son diálogo previo, no nueva biografía.
+5. **Conversar**: situación, gusto, elección, análisis, anécdota o consejo. Revisar contexto exacto, instrucciones, destino y coste máximo antes de enviar. Las respuestas se identifican por tipo y conservan citas. Cada respuesta guardada permite desplegar proveedor, modelo, tokens disponibles y techo estimado de coste; es una estimación, no una factura. Las conversaciones generadas son diálogo previo, no nueva biografía.
 
 ## Proveedores y evidencia
 
