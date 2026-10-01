@@ -139,9 +139,7 @@ export function Reflection({ api, busy, act, refreshArchive }: Props) {
     <div className="reflection-surface">
       <div className="page-heading">
         <h1>
-          {t("Un reflejo.", "A reflection.")}
-          <br />
-          <span>{t("Su manera de ser.", "Their way of being.")}</span>
+          {t("Reflejo", "Reflection")}
         </h1>
         <p>
           {t(
