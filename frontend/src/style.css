@@ -53,7 +53,7 @@ a {
     background-color 150ms,
     color 150ms;
 }
-button: hover:not(:disabled) {
+button:hover:not(:disabled) {
   background-color: var(--hoard-elevated);
 }
 a {
@@ -705,7 +705,7 @@ label {
   font-weight: 570;
   margin: 0 0 18px;
 }
-input: not([type="range"]):not([type="file"]):not([type="checkbox"]),
+input:not([type="range"]):not([type="file"]):not([type="checkbox"]),
 textarea,
 select {
   border: 1px solid var(--hoard-border);

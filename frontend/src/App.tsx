@@ -247,7 +247,7 @@ function Workspace({
           <span>
             self<span className="brand-light">hoard</span>
             <small>
-              {t("Tu archivo, con sentido.", "Your archive, with meaning.")}
+              {t("Archivo personal", "Personal archive")}
             </small>
           </span>
         </a>
@@ -904,10 +904,6 @@ function Workspace({
           )}
         </main>
         <footer>
-          {t(
-            "Una fuente antes que una suposición.",
-            "A source before an assumption.",
-          )}
           <span>
             Self Hoard · {t("Primera versión local", "First local release")}
           </span>
