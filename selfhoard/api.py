@@ -12,6 +12,7 @@ from .decisions import Decisions, DecisionVault
 from .providers import ProviderManager
 from .reflection_api import install as install_reflection
 from .models import StrictModel
+from .hoard_link.guard import install_guard
 from pydantic import Field
 
 
@@ -64,15 +65,13 @@ def create_app(data_dir: Path, frontend_dir: Path | None = None, test_mode=False
 
     @app.middleware('http')
     async def local_boundary(request: Request, call_next):
-        host = request.url.hostname
-        if host not in ('127.0.0.1', 'localhost', '::1') and not (test_mode and host == 'testserver'):
-            return JSONResponse({'error': 'local_only'}, status_code=403)
+        # The Host name (DNS rebinding), the cross-site Fetch Metadata rule and the Origin check of the shared guard
+        # run before this (install_guard below). What stays here is stricter than the shared rule: the peer must be
+        # loopback and an Origin must be exactly this app's own origin (same scheme and port, not just any local one).
         if request.client and request.client.host not in ('127.0.0.1', '::1') and not test_mode:
             return JSONResponse({'error': 'local_only'}, status_code=403)
         origin = request.headers.get('origin')
         if origin and origin != f'{request.url.scheme}://{request.url.netloc}':
-            return JSONResponse({'error': 'origin_denied'}, status_code=403)
-        if request.headers.get('sec-fetch-site') == 'cross-site':
             return JSONResponse({'error': 'origin_denied'}, status_code=403)
         if request.url.path.startswith('/api/') and request.url.path != '/api/session':
             if request.headers.get('authorization'):
@@ -238,4 +237,9 @@ def create_app(data_dir: Path, frontend_dir: Path | None = None, test_mode=False
 
     if frontend_dir and frontend_dir.is_dir():
         app.mount('/', StaticFiles(directory=frontend_dir, html=True), name='ui')
+    # The shared request guard, outermost: loopback Host (plus DORIAN_ALLOWED_HOSTS for a LAN name or a tailnet),
+    # Fetch Metadata and Origin rules. The Host used to be checked by hand against three names; the port is not
+    # enforced here because the exact-origin rule above already pins it.
+    install_guard(app, port_getter=lambda: 0, allowed_env='DORIAN_ALLOWED_HOSTS',
+                  allowed_hosts=('testserver',) if test_mode else ())
     return app
