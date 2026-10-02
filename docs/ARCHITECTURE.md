@@ -24,7 +24,7 @@ La búsqueda tokeniza, normaliza acentos y exige todas las palabras relevantes. 
 
 ## Fronteras
 
-Un servidor FastAPI sirve la interfaz compilada y API en el mismo origen, solo en loopback. Comprueba Host, origen, cliente y cabeceras de escritura; la cookie es HttpOnly y SameSite Strict. La CSP limita scripts, conexiones y fuentes a sí mismo. El API limita cargas a 8 MB y los contratos imponen tamaños de campo. No se usan contenidos importados como comandos o plantillas HTML.
+Un servidor FastAPI sirve la interfaz compilada y API en el mismo origen, solo en loopback. Delante de todo va la guardia compartida de Hoard Link (`selfhoard/hoard_link/guard.py`, incluida sin cambios): Host local (`DORIAN_ALLOWED_HOSTS` abre a propósito un nombre de red local), cabeceras Fetch Metadata y Origin; detrás, `local_boundary` mantiene lo más estricto: cliente en loopback, origen exactamente igual al de la aplicación y cabeceras de escritura; la cookie es HttpOnly y SameSite Strict. La CSP limita scripts, conexiones y fuentes a sí mismo. El API limita cargas a 8 MB y los contratos imponen tamaños de campo. No se usan contenidos importados como comandos o plantillas HTML.
 
 Esta frontera bloquea sitios externos comunes; no protege contra un proceso local comprometido, otra persona con acceso al usuario de Windows o un administrador. No hay cifrado de la base, roles, autenticación de usuario ni autorización entre múltiples propietarios. El ámbito de esta versión es un propietario local.
 
