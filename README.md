@@ -144,6 +144,16 @@ An MCP client can read permitted context, check for changes, contribute attribut
 
 The application provides client configuration. Keep its credential private. See [MCP setup, tools and trust boundaries](docs/MCP.md). Change detection currently uses polling, not push notifications.
 
+## Faustus assistant
+
+Once the shared Hoard Link launcher is installed, the app shows the family's Faustus panel (a floating button). The conversation, the model and the tools live in Faustus; this app only tells the panel what is open.
+
+- **Context per view.** The app has no URL routes, so it publishes the open page, space (the `X-Hoard-Space` header), claim, source and reflection section. The panel receives `claim` (text cut to 80 characters, state, kind, subject, source id), `source` (title, kind; plus up to 8 of its claims), `persona` (name, life status, consent) and `conversation` (title, number of turns). This app holds personal data, so only ids, short titles and previews are sent: never whole texts, the quote behind a claim, provider keys or connection tokens. Creation forms give no object.
+- **Unsaved fields.** The panel asks for them with the `dorian:context-request` window event. The forms `persona-form`, `claim-correction`, `claim-new`, `source-new`, `card-new` and `reflection-question` answer with only the fields that differ from what was loaded; typed texts longer than 500 characters are cut to a preview.
+- **Refresh.** When the assistant finishes a turn the archive reloads in place (`hoard:copilot-turn-end` / `window.hoardCopilot.onTurnEnd`) and open forms and search results stay as they are.
+- **Saving.** The portrait form sends only the changed fields to the new `PATCH /api/reflection/persona`, which merges just the fields present in the body inside the same transaction that reads the stored portrait. Derived dialogue is forgotten only when something actually changed; invalid values leave the portrait intact.
+- **Tests.** `node --test frontend/copilot-context.test.mjs` and `python -m pytest tests/test_partial_updates.py`.
+
 ## Data and trust boundaries
 
 Personal data lives under the ignored `data/` directory, separate from the demo. There is no telemetry. Model requests send approved context to the selected destination; external MCP clients have their own providers and retention behavior.

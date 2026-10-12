@@ -52,6 +52,16 @@ El iniciador prepara el entorno y abre **http://127.0.0.1:8741**. Elige el idiom
 
 El [README en inglés](README.md#run-locally-on-windows) incluye actualización, arquitectura y comandos para reproducir las pruebas.
 
+## Asistente de Faustus
+
+Con el lanzador compartido de Hoard Link instalado, la app muestra el panel de Faustus de la familia (un botón flotante). La conversación, el modelo y las herramientas viven en Faustus; esta app solo le dice al panel qué hay abierto.
+
+- **Contexto por vista.** La app no tiene rutas en la URL, así que publica la página, el espacio (la cabecera `X-Hoard-Space`), la afirmación, la fuente y la sección del reflejo abiertos. El panel recibe `claim` (texto cortado a 80 caracteres, estado, tipo, sujeto, id de la fuente), `source` (título, tipo; y hasta 8 de sus afirmaciones), `persona` (nombre, estado vital, consentimiento) y `conversation` (título, número de turnos). Esta app guarda datos personales, así que solo se envían ids, títulos cortos y vistas previas: nunca textos completos, la cita que respalda una afirmación, claves de proveedores ni tokens de conexión. Los formularios de creación no dan objeto.
+- **Campos sin guardar.** El panel los pide con el evento de ventana `dorian:context-request`. Los formularios `persona-form`, `claim-correction`, `claim-new`, `source-new`, `card-new` y `reflection-question` responden solo con los campos que difieren de lo cargado; los textos escritos de más de 500 caracteres se cortan a una vista previa.
+- **Refresco.** Cuando el asistente termina un turno, el archivo se recarga en el sitio (`hoard:copilot-turn-end` / `window.hoardCopilot.onTurnEnd`) y los formularios abiertos y los resultados de búsqueda se quedan como están.
+- **Guardado.** El formulario del retrato envía solo los campos cambiados al nuevo `PATCH /api/reflection/persona`, que fusiona solo los campos presentes en el cuerpo dentro de la misma transacción que lee el retrato guardado. El diálogo derivado se olvida solo si algo cambió de verdad; los valores no válidos dejan el retrato intacto.
+- **Pruebas.** `node --test frontend/copilot-context.test.mjs` y `python -m pytest tests/test_partial_updates.py`.
+
 ## Datos y estado del proyecto
 
 Los datos se guardan en `data/`, excluido de Git. Las claves usan DPAPI de Windows; la base completa aún no está cifrada ni existe autenticación entre usuarios de la misma cuenta. Revocar una IA impide futuras consultas, pero no elimina copias ya guardadas por ese cliente. No hay telemetría; el contexto aprobado se envía al modelo elegido.
