@@ -185,6 +185,19 @@ class Reflection(Store):
             db.execute('DELETE FROM packets')
         return self.persona()
 
+    def patch_persona(self, changes):
+        # Merge only the fields the caller sent, inside the same transaction that reads the stored portrait, so a field
+        # the owner (or an assistant) changed meanwhile survives. Nothing derived is forgotten when nothing changed.
+        with self.connect() as db:
+            row = db.execute('SELECT payload FROM persona WHERE id=1').fetchone()
+            current = PersonaInput.model_validate(json.loads(row['payload'])).model_dump() if row else PersonaInput().model_dump()
+            merged = PersonaInput.model_validate(current | changes).model_dump()
+            if merged != current or not row:
+                db.execute('INSERT INTO persona VALUES(1,?,?) ON CONFLICT(id) DO UPDATE SET payload=excluded.payload,revision=excluded.revision',
+                           (pack(merged), uid()))
+                db.execute('DELETE FROM packets')
+        return self.persona()
+
     def cards(self, audience='owner'):
         with self.connect() as db:
             rows = [dict(r) for r in db.execute('SELECT c.*,s.kind AS source_kind FROM cards c JOIN sources s ON s.id=c.source_id ORDER BY c.created_at DESC')]
