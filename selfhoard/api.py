@@ -12,6 +12,7 @@ from .decisions import Decisions, DecisionVault
 from .providers import ProviderManager
 from .reflection_api import install as install_reflection
 from .models import StrictModel
+from .hoard_link.copilot import install_copilot
 from .hoard_link.guard import install_guard
 from pydantic import Field
 
@@ -235,6 +236,8 @@ def create_app(data_dir: Path, frontend_dir: Path | None = None, test_mode=False
         lab(request).clear()
         return {'ok': True}
 
+    # The shared Faustus assistant panel: routes and launcher go before the static catch-all.
+    install_copilot(app, 'dorian', str(data_dir), app_name="Dorian's Hoard")
     if frontend_dir and frontend_dir.is_dir():
         app.mount('/', StaticFiles(directory=frontend_dir, html=True), name='ui')
     # The shared request guard, outermost: loopback Host (plus DORIAN_ALLOWED_HOSTS for a LAN name or a tailnet),
