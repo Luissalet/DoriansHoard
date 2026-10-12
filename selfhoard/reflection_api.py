@@ -29,6 +29,11 @@ def install(app, store, space_of, providers, vaults):
     def persona(data: PersonaInput, request: Request):
         return store(request).save_persona(data)
 
+    @app.patch('/api/reflection/persona')
+    def patch_persona(data: PersonaInput, request: Request):
+        # Only the fields present in the body are merged into the stored portrait.
+        return store(request).patch_persona({k: getattr(data, k) for k in data.model_fields_set})
+
     @app.post('/api/reflection/cards')
     def card(data: CardInput, request: Request):
         return store(request).add_card(data)
