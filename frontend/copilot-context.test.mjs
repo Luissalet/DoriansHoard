@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import {
   buildContext, changedFields, clip, collectEditors, editorSnapshot, installCopilot, onRefresh, previewEditor, rebaseForm,
   answerContextRequests,
+  context, setView, view,
 } from "./src/copilot-context.ts";
 
 const long = "x".repeat(900);
@@ -50,6 +51,13 @@ test("a source open in sources lists its claims", async () => {
   assert.ok(!JSON.stringify(ctx).includes("x".repeat(100)));
 });
 
+test("source references include every associated claim beyond the first eight", async () => {
+  const claims = Array.from({ length: 12 }, (_, index) => ({ id: "claim-" + index, source_id: "s1", text: "Reference " + index }));
+  const ctx = await buildContext({ state: state({ page: "sources", sourceId: "s1" }), ...fetchers, getArchive: async () => ({ sources: archive.sources, claims }) });
+  assert.equal(ctx.active_objects.length, 13);
+  assert.ok(ctx.active_objects.some((object) => object.object_id === "claim-11"));
+});
+
 test("the portrait section gives the persona without its texts; a conversation is added when open", async () => {
   const ctx = await buildContext({ state: state({ section: "portrait", conversationId: "k1" }), ...fetchers });
   assert.deepEqual(ctx.active_objects.map((o) => `${o.kind}:${o.object_id}`), ["persona:persona", "conversation:k1"]);
@@ -81,15 +89,42 @@ test("the open correction form adds its claim even before the view state catches
   assert.equal(ctx.view.editor.fields.reason, "wrong");
 });
 
-test("first dirty form is the editor, several are listed, long texts are cut", async () => {
+test("first dirty form is the editor and complete pending text is preserved", async () => {
   const clean = editorSnapshot("persona-form", "persona", { voice: "a" }, { voice: "a" });
   const dirty = previewEditor(editorSnapshot("card-new", null, { text: "" }, { text: long }));
-  assert.equal(dirty.fields.text.length, 500);
-  assert.deepEqual(dirty.clipped_fields, ["text"]);
+  assert.equal(dirty.fields.text, long);
+  assert.equal(dirty.clipped_fields, undefined);
   const ctx = await buildContext({ state: state(), ...fetchers, editors: [clean, dirty] });
   assert.equal(ctx.view.editor.kind, "card-new");
   assert.equal(ctx.view.editors.length, 2);
   assert.equal(clip("a  b\n c", 80), "a b c");
+});
+
+test("session retry keeps the original context space after navigation", async (t) => {
+  const previousFetch = globalThis.fetch;
+  const previousView = { ...view };
+  t.after(() => { globalThis.fetch = previousFetch; setView(previousView); });
+  let release;
+  const pending = new Promise((resolve) => { release = resolve; });
+  const requestSpaces = [];
+  globalThis.fetch = async (path, options) => {
+    if (path === "/api/session") return { ok: true, status: 200 };
+    const space = options.headers["X-Hoard-Space"];
+    requestSpaces.push(space);
+    if (requestSpaces.length === 1) { await pending; return { ok: false, status: 401 }; }
+    return { ok: true, status: 200, json: async () => ({ sources: [{ id: "same", title: space + " source" }], claims: [] }) };
+  };
+  setView(state({ space: "personal", page: "sources", sourceId: "same" }));
+  const inFlight = context();
+  setView(state({ space: "demo", page: "sources", sourceId: "same" }));
+  release();
+  const snapshot = await inFlight;
+  assert.deepEqual(requestSpaces, ["personal", "personal"]);
+  assert.equal(snapshot.view.space, "personal");
+  assert.equal(snapshot.active_objects[0].title, "personal source");
+  const next = await context();
+  assert.equal(next.view.space, "demo");
+  assert.equal(next.active_objects[0].title, "demo source");
 });
 
 test("forms answer the context request", () => {

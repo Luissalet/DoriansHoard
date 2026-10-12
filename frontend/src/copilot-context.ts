@@ -1,7 +1,7 @@
 // What the shared copilot launcher asks this app for: the real objects open in the current view and the unsaved form fields,
 // plus a way to refresh the open view when the assistant finishes a turn. Nothing here renders anything.
-// This app holds personal data, so the context carries ids, titles and short previews only (never whole texts, never the
-// quote behind a claim, never provider keys or connection tokens).
+// Saved objects use ids, titles and short previews. Pending fields are complete so the assistant can work on unsaved text;
+// provider keys and connection tokens are not form context.
 
 export type Editor = { kind: string; object_id: string | null; dirty: boolean; fields: Record<string, unknown>; [extra: string]: unknown };
 export type ViewState = {
@@ -16,7 +16,6 @@ type Row = Record<string, any>;
 export type Fetchers = { getArchive: () => Promise<Row>; getReflection: () => Promise<Row> };
 
 const MAX_TITLE = 80;
-const MAX_FIELD = 500;
 
 // The React app publishes which page, claim, source and reflection section are open (the app has no URL routes).
 export const view: ViewState = { space: "personal", page: "reflection", claimId: null, sourceId: null, section: null, conversationId: null };
@@ -50,17 +49,9 @@ export function editorSnapshot(kind: string, objectId: string | null, initial: R
   return { kind, object_id: objectId, dirty: Object.keys(fields).length > 0, fields, ...extra };
 }
 
-// Long typed texts are cut to a preview; the names of the cut fields travel along.
+// A pending value has no saved equivalent that a native tool can retrieve.
 export function previewEditor(editor: Editor): Editor {
-  const fields: Row = {};
-  const clipped: string[] = [];
-  for (const [key, value] of Object.entries(editor.fields || {})) {
-    if (typeof value === "string" && value.length > MAX_FIELD) {
-      fields[key] = value.slice(0, MAX_FIELD - 1) + "…";
-      clipped.push(key);
-    } else fields[key] = value;
-  }
-  return { ...editor, fields, ...(clipped.length ? { clipped_fields: clipped } : {}) };
+  return { ...editor, fields: { ...editor.fields } };
 }
 
 // Every open form answers this event with a snapshot of what the user has typed.
@@ -127,7 +118,7 @@ export async function buildContext({ state, editors = [], getArchive, getReflect
       if (source) {
         objectId = source.id;
         add(sourceObject(source));
-        for (const c of claims.filter((c) => c.source_id === source.id).slice(0, 8)) add(claimObject(c));
+        for (const c of claims.filter((c) => c.source_id === source.id)) add(claimObject(c));
       }
     }
   }
@@ -150,8 +141,8 @@ export async function buildContext({ state, editors = [], getArchive, getReflect
   return { active_objects: active, view: out };
 }
 
-async function getJson(path: string): Promise<Row> {
-  const request = () => fetch("/api" + path, { headers: { "X-Hoard-Space": view.space } });
+async function getJson(path: string, space: string): Promise<Row> {
+  const request = () => fetch("/api" + path, { headers: { "X-Hoard-Space": space } });
   let response = await request();
   if (response.status === 401) { await fetch("/api/session"); response = await request(); }
   if (!response.ok) throw new Error("http_" + response.status);
@@ -159,11 +150,12 @@ async function getJson(path: string): Promise<Row> {
 }
 
 export function context() {
+  const state = { ...view };
   return buildContext({
-    state: { ...view },
+    state,
     editors: collectEditors(),
-    getArchive: () => getJson("/archive"),
-    getReflection: () => getJson("/reflection"),
+    getArchive: () => getJson("/archive", state.space),
+    getReflection: () => getJson("/reflection", state.space),
   });
 }
 
