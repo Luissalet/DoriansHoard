@@ -64,6 +64,7 @@
     "optional_env": []
   },
   "x-family": {
+    "copilot": true,
     "agent_contract": false,
     "stack": "python",
     "note": "Its MCP server authenticates with per-client credential files, not a bearer token, so the hub proxy does not call it; the hub lists, starts and backs it up (data/ holds the credential store: keep backups local)."
