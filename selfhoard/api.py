@@ -74,12 +74,12 @@ def create_app(data_dir: Path, frontend_dir: Path | None = None, test_mode=False
         origin = request.headers.get('origin')
         if origin and origin != f'{request.url.scheme}://{request.url.netloc}':
             return JSONResponse({'error': 'origin_denied'}, status_code=403)
-        if request.url.path.startswith('/api/') and request.url.path != '/api/session':
+        if request.url.path.startswith('/api/') and request.url.path not in ('/api/session', '/api/copilot/launcher.js'):
             if request.headers.get('authorization'):
                 return JSONResponse({'error': 'owner_session_required'}, status_code=403)
             if request.cookies.get('hoard_session') not in sessions:
                 return JSONResponse({'error': 'session_required'}, status_code=401)
-            if request.method not in ('GET', 'HEAD') and request.headers.get('X-Hoard-Request') != '1':
+            if request.method not in ('GET', 'HEAD') and request.url.path != '/api/copilot/proxy' and request.headers.get('X-Hoard-Request') != '1':
                 return JSONResponse({'error': 'request_header_required'}, status_code=403)
         length = request.headers.get('content-length', '0')
         try:
@@ -99,7 +99,7 @@ def create_app(data_dir: Path, frontend_dir: Path | None = None, test_mode=False
         response.headers['Cache-Control'] = 'no-store'
         response.headers['X-Content-Type-Options'] = 'nosniff'
         response.headers['Referrer-Policy'] = 'no-referrer'
-        response.headers['Content-Security-Policy'] = "default-src 'self'; connect-src 'self'; font-src 'self'; img-src 'self' data:; style-src 'self'; script-src 'self'; frame-ancestors 'none'; form-action 'self'; base-uri 'none'"
+        response.headers['Content-Security-Policy'] = "default-src 'self'; connect-src 'self'; font-src 'self' data:; img-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self'; frame-ancestors 'none'; form-action 'self'; base-uri 'none'"
         return response
 
     @app.get('/api/session')
