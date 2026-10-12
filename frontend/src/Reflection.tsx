@@ -8,6 +8,8 @@ import {
 } from "lucide-react";
 import { API, Locale, useText, Status, kindLabels } from "./shared";
 import { ModelSettings, Provider } from "./ModelSettings";
+import { changedFields, editorSnapshot, onRefresh, rebaseForm, setView } from "./copilot-context";
+import { useEditorContext } from "./copilot-react";
 
 type Persona = {
   name: string;
@@ -114,6 +116,31 @@ export function Reflection({ api, busy, act, refreshArchive }: Props) {
   useEffect(() => {
     void act(reload);
   }, []);
+  // For the shared assistant panel: which section and conversation are open, the question being typed, and a quiet reload
+  // when the assistant finishes a turn (no remount, so what the user typed stays).
+  useEffect(() => {
+    setView({ section, conversationId: conversationId ?? null });
+  }, [section, conversationId]);
+  useEffect(
+    () => () => {
+      setView({ section: null, conversationId: null });
+    },
+    [],
+  );
+  useEffect(() => onRefresh(reload), []);
+  useEditorContext(() =>
+    section === "conversation"
+      ? editorSnapshot(
+          "reflection-question",
+          null,
+          { question: "", mode: "conversation" },
+          { question, mode },
+          conversationId
+            ? { for_object: { kind: "conversation", object_id: conversationId } }
+            : {},
+        )
+      : null,
+  );
   const changeSection = (value: string) => {
     setSection(value);
     setPacket(null);
@@ -574,12 +601,12 @@ export function Reflection({ api, busy, act, refreshArchive }: Props) {
           )}
           {section === "portrait" && (
             <Portrait
-              key={JSON.stringify(data.profile)}
               profile={data.profile}
               busy={busy}
-              save={(profile) =>
+              save={(changes) =>
                 act(async () => {
-                  await api("/reflection/persona", profile);
+                  // Only the fields the user changed travel, so an edit made meanwhile elsewhere survives.
+                  await api("/reflection/persona", changes, "PATCH");
                   setConversationId(undefined);
                   setPacket(null);
                   await reload();
@@ -615,10 +642,18 @@ function Portrait({
 }: {
   profile: Persona;
   busy: boolean;
-  save: (p: Persona) => Promise<void>;
+  save: (changes: Partial<Persona>) => Promise<void>;
 }) {
   const t = useText(),
-    [value, setValue] = useState(profile);
+    [value, setValue] = useState(profile),
+    [base, setBase] = useState(profile);
+  // The portrait was reloaded (for example after the assistant changed it): untouched fields follow it, typed ones stay.
+  useEffect(() => {
+    if (JSON.stringify(profile) === JSON.stringify(base)) return;
+    setValue((current) => rebaseForm(base, profile, current));
+    setBase(profile);
+  }, [profile]);
+  useEditorContext(() => editorSnapshot("persona-form", "persona", base, value));
   const fields: [keyof Persona, string, string, number][] = [
     ["name", "Nombre de la persona", "Person’s name", 100],
     [
@@ -658,7 +693,8 @@ function Portrait({
       className="reflection-editor"
       onSubmit={(e) => {
         e.preventDefault();
-        void save(value);
+        const changes = changedFields(base, value) as Partial<Persona>;
+        if (Object.keys(changes).length) void save(changes);
       }}
     >
       <h2>{t("El retrato de una persona", "A portrait of one person")}</h2>
@@ -768,6 +804,28 @@ function Memories({
       question: string;
     } | null>(null),
     [filter, setFilter] = useState("all");
+  useEditorContext(() => {
+    if (!adding) return null;
+    const draft: Record<string, unknown> = { kind, title, text, author, attribution, period, domain };
+    const initial: Record<string, unknown> = {
+      kind: prompt?.kind ?? "memory",
+      title: prompt?.title ?? "",
+      text: "",
+      author: "",
+      attribution: "owner_statement",
+      period: "",
+      domain: "",
+    };
+    if (kind === "voice") {
+      Object.assign(draft, {
+        feature, examples, use_when: useWhen, avoid_when: avoidWhen, relationship, frequency, language: expressionLanguage,
+      });
+      Object.assign(initial, {
+        feature: "catchphrase", examples: "", use_when: "", avoid_when: "", relationship: "", frequency: "unknown", language: "",
+      });
+    }
+    return editorSnapshot("card-new", null, initial, draft);
+  });
   const open = () => {
     setAdding(true);
     setPrompt(null);
