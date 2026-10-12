@@ -36,6 +36,8 @@ import { Lab } from "./Lab";
 import { Neuro } from "./Neuro";
 import { Agents } from "./Agents";
 import { Reflection } from "./Reflection";
+import { editorSnapshot, onRefresh, setView } from "./copilot-context";
+import { useEditorContext } from "./copilot-react";
 
 type Page =
   "reflection" | "archive" | "sources" | "lab" | "neuro" | "privacy" | "agents";
@@ -151,6 +153,18 @@ function Workspace({
       live = false;
     };
   }, [space]);
+  // What the shared assistant panel may ask about: which page, claim and source are open (the app has no URL routes).
+  useEffect(() => {
+    setView({ space, page, claimId: selected, sourceId });
+  }, [space, page, selected, sourceId]);
+  // When the assistant finishes a turn, reload the archive in place (the search result and open forms stay as they are).
+  useEffect(
+    () =>
+      onRefresh(async () => {
+        if (ready) setArchive(await api<Archive>("/archive"));
+      }),
+    [space, ready],
+  );
   const navigate = (p: Page) => {
     setPage(p);
     setAdding(false);
@@ -934,6 +948,11 @@ function ClaimDetail({
     setCorrecting(false);
     setReason("");
   }, [claim.id]);
+  useEditorContext(() =>
+    correcting
+      ? editorSnapshot("claim-correction", claim.id, { reason: "" }, { reason })
+      : null,
+  );
   return (
     <>
       <Status state={claim.state} />
@@ -1077,6 +1096,14 @@ function SourceForm({
     [text, setText] = useState(""),
     [kind, setKind] = useState("owner_statement"),
     [author, setAuthor] = useState("");
+  useEditorContext(() =>
+    editorSnapshot(
+      "source-new",
+      null,
+      { title: "", text: "", kind: "owner_statement", author: "" },
+      { title, text, kind, author },
+    ),
+  );
   return (
     <form
       className="source-form"
@@ -1210,6 +1237,15 @@ function SourceDetail({
       preference_models?: number;
     } | null>(null),
     [saved, setSaved] = useState(false);
+  useEditorContext(() =>
+    editorSnapshot(
+      "claim-new",
+      null,
+      { quote: "", interpretation: "", subject: "owner", valid_from: "", valid_to: "", depends_on: "" },
+      { quote, interpretation: interpret, subject, valid_from: from, valid_to: to, depends_on: parent },
+      { for_object: { kind: "source", object_id: source.id } },
+    ),
+  );
   return (
     <section className="source-detail">
       <h2>{source.title}</h2>
