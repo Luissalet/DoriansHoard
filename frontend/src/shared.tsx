@@ -63,6 +63,30 @@ export function Status({ state }: { state: string }) {
   return <span className={"status " + state}>{t(...label)}</span>;
 }
 export const errors: Record<string, [string, string]> = {
+  insufficient_decisions: [
+    "Confirma al menos tres ejemplos con elecciones comparables en este ámbito antes de ajustar.",
+    "Confirm at least three examples with comparable choices in this domain before fitting.",
+  ],
+  insufficient_comparable_features: [
+    "Los ejemplos necesitan criterios comunes con el mismo nombre. Revisa sus valoraciones.",
+    "Examples need common criteria with the same names. Review their ratings.",
+  ],
+  model_missing_or_withdrawn: [
+    "El modelo fue retirado o ya no existe. Ajusta otro con los ejemplos vigentes.",
+    "The model was withdrawn or no longer exists. Fit another from current examples.",
+  ],
+  training_changed_retry: [
+    "Los ejemplos cambiaron durante el ajuste. Revísalos y vuelve a ajustar.",
+    "Examples changed during fitting. Review them and fit again.",
+  ],
+  missing_decision_features: [
+    "La situación nueva necesita todos los criterios del modelo seleccionado.",
+    "The new situation needs every criterion from the selected model.",
+  ],
+  domain_mismatch: [
+    "Elige un modelo del mismo ámbito que la situación nueva.",
+    "Choose a model in the same domain as the new situation.",
+  ],
   invalid_fields: [
     "Revisa los campos. Los fragmentos de expresión deben aparecer literalmente en el texto original (máximo ocho).",
     "Check the fields. Expression excerpts must appear verbatim in the original text (up to eight).",

@@ -36,7 +36,7 @@ The synthetic persona above prefers a forest walk after a noisy week, but makes 
 | Reflection | Portrait, memory and expression cards, exact input preview, cited conversation, ES/EN interface | No personal LLM fine-tuning, audio style extraction or voice cloning |
 | Model connections | Ollama, local OpenAI-compatible servers, OpenAI Responses and Anthropic Messages adapters | Real Ollama checked; cloud adapters have no live credential-based verification yet |
 | AI interoperability | Ten MCP tools, scoped reads, change polling, attributed update inbox, expiry and revocation | AI clients cannot approve evidence or grant themselves access |
-| Decision research API | Reviewed episodes, regularized pairwise preference fitting, abstention near ties, sealed trials | Human-supplied feature ratings; uncalibrated estimates; evaluation UI pending |
+| Decisions laboratory | Bilingual example editor, explicit review, local pairwise preference fitting, sealed blind trials and result comparison | Human-supplied feature ratings; uncalibrated estimates; no validated personality fidelity |
 | Visual laboratory | Activity scenarios, manual priorities, hidden predictions and revealed comparisons | Manual-policy demonstration, not a learned digital twin or neural simulation |
 
 ## A research question you can test
@@ -46,6 +46,8 @@ The synthetic persona above prefers a forest walk after a noisy week, but makes 
 These are separate targets. Sounding familiar is not evidence of choosing accurately; choosing correctly does not establish that a stated reason matches the person's reason.
 
 The experimental decision API stores held-out answers separately. It seals a prediction and model version before receiving the human answer, then reports choice agreement and Brier score against a uniform reference. A person can rate the match between reasons. Held-out labels are excluded from conversational retrieval. These mechanisms support experiments; they are not results from a participant study.
+
+Open **Laboratory → Your decisions** to use that API without writing JSON: describe alternatives and rate shared criteria from 0 to 5, save and review your examples, then fit a local model from at least three confirmed choices in one domain. Prepare a new situation, seal the prediction, and record your choice before revealing the comparison. Saved trials can be reopened and downloaded as JSON. A lower Brier score is better for that case; it does not establish calibration or fidelity to a person. **Manual demonstration** remains available beside this workflow. The fit uses the existing small statistical model on the CPU and requires no LLM connection.
 
 Useful next investigations:
 

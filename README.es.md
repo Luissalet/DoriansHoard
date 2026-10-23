@@ -24,7 +24,7 @@ Esta versión funciona como prototipo para un propietario en Windows. El acceso 
 - Preguntar qué diría, qué le gustaría, qué elegiría o cómo analizaría una situación. Revisar los datos exactos y el destino antes de enviarlos.
 - Consultar respuestas con citas e incertidumbre. Retirar evidencia e invalidar el contexto y diálogo dependientes.
 - Conectar otras IA mediante diez herramientas MCP: permisos, consulta de novedades, aportaciones atribuidas a una bandeja, caducidad y revocación.
-- Explorar actividades con una política manual. La API experimental añade preferencias aprendidas sobre episodios revisados y evaluación reservada; su interfaz está pendiente.
+- Usar **Laboratorio → Tus decisiones** para guardar alternativas y criterios valorados de 0 a 5, revisar ejemplos propios y ajustar el modelo local existente con al menos tres elecciones confirmadas del mismo ámbito. Preparar una situación nueva, sellar la predicción, responder antes de revelarla y comparar el resultado con la referencia uniforme. Las pruebas se pueden reabrir y descargar en JSON. La **Demostración manual** sigue disponible en el mismo Laboratorio; el ajuste estadístico funciona en CPU sin conectar un LLM.
 
 Ollama y servidores locales compatibles son opciones de inferencia. También existen adaptadores OpenAI y Anthropic, aún sin pruebas con credenciales reales. La recuperación usa coincidencias literales; no hay entrenamiento de un LLM personal ni clonación de voz.
 

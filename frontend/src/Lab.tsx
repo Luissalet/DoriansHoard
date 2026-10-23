@@ -11,6 +11,45 @@ import {
   Trash2,
 } from "lucide-react";
 import { API, Locale, useText } from "./shared";
+import { Decisions } from "./Decisions";
+
+type LabProps = {
+  api: API;
+  busy: boolean;
+  act: (fn: () => Promise<void>) => Promise<void>;
+};
+export function Lab(props: LabProps) {
+  const t = useText();
+  const [mode, setMode] = useState<"decisions" | "manual">("decisions");
+  return (
+    <>
+      <nav
+        className="decision-modes"
+        aria-label={t("Modo del laboratorio", "Laboratory mode")}
+      >
+        <button
+          aria-pressed={mode === "decisions"}
+          onClick={() => setMode("decisions")}
+          disabled={props.busy}
+        >
+          {t("Tus decisiones", "Your decisions")}
+        </button>
+        <button
+          aria-pressed={mode === "manual"}
+          onClick={() => setMode("manual")}
+          disabled={props.busy}
+        >
+          {t("Demostración manual", "Manual demonstration")}
+        </button>
+      </nav>
+      {mode === "decisions" ? (
+        <Decisions {...props} />
+      ) : (
+        <ManualLab {...props} />
+      )}
+    </>
+  );
+}
 type Option = {
   id: string;
   label: { es: string; en: string };
@@ -40,7 +79,7 @@ type Trial = {
   match?: boolean;
   canonical_payload?: string;
 };
-export function Lab({
+function ManualLab({
   api,
   busy,
   act,
