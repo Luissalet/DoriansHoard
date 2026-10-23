@@ -32,7 +32,21 @@ El consentimiento global autoriza conversaciones del propietario; no identifica 
 
 `/api/decisions/predict` estima preferencias condicionadas a esas características. Son estimaciones no calibradas. Contribuciones de características explican la fórmula; no prueban causas psicológicas. Los vetos se guardan como contexto del episodio y excluyen comparaciones de entrenamiento; aún no hay reglas de veto generalizadas a casos nuevos.
 
-`/api/decisions/trials` sella predicción y versión antes de recibir la respuesta humana. Las etiquetas reservadas se guardan en otra base y nunca entran en recuperación conversacional. Tras contestar devuelve acuerdo y Brier frente a una referencia uniforme. La puntuación del motivo se declara por la persona; no hay evaluación automática de razones/estilo. La interfaz de esta evaluación aprendida y los restantes baselines están pendientes; el Laboratorio visible conserva su demostración manual identificada.
+`/api/decisions/trials` sella predicción y versión antes de recibir la respuesta humana. Las etiquetas reservadas se guardan en otra base y nunca entran en recuperación conversacional. Tras contestar devuelve acuerdo y Brier frente a una referencia uniforme. La API admite puntuación del motivo declarada por la persona; no hay evaluación automática de razones/estilo. Los restantes baselines siguen pendientes.
+
+### Recorrido visible: Tus decisiones
+
+En Laboratorio, **Tus decisiones** permite usar esas capacidades sin JSON:
+
+1. Describir una situación propia, su ámbito, alternativas y criterios compartidos. Valorar de 0 a 5 cuánto ofrece cada alternativa de cada criterio.
+2. Marcar la elección (varias si hubo empate, o ninguna preferencia), añadir el motivo y, opcionalmente, contexto, excepciones y época. Guardar conserva la estructura para el siguiente ejemplo, pero borra la situación, elección y motivos del formulario.
+3. Abrir cada ejemplo y confirmarlo tras revisar su contenido. **Usar como base** reutiliza alternativas y valoraciones, dejando vacía la situación y la elección nuevas. **Retirar del ajuste** devuelve el ejemplo a pendiente y retira sus modelos derivados según el contrato existente.
+4. Ajustar un modelo del mismo ámbito con al menos tres ejemplos confirmados que tengan elección y criterios comparables. El modelo estadístico existente usa CPU; no carga un LLM. La interfaz informa de errores de comparabilidad y modelos retirados.
+5. En **Pruebas ciegas**, elegir una versión del modelo, describir una situación nueva y sus alternativas, con los criterios fijados por esa versión. Sellar guarda la predicción antes de pedir la elección humana. El formulario de respuesta no muestra ni envía la predicción al propietario antes de contestar.
+6. Guardar la respuesta revela predicción, estimaciones por alternativa, elección, acuerdo y Brier frente a la referencia uniforme. Sin preferencia no se interpreta acierto ni se calcula Brier. Las estimaciones se identifican como no calibradas; menor Brier es mejor en ese caso, sin prometer calibración ni fidelidad psicológica. Ver [documentación primaria sobre calibración y límites del Brier](https://scikit-learn.org/stable/modules/calibration.html).
+7. Reabrir pruebas desde el historial y descargar el registro completo de una prueba respondida en JSON. La firma y la versión usadas permanecen inspeccionables en **Registro sellado**. Esta descarga no es un backup completo del reflejo.
+
+Los campos pendientes de ejemplos y casos nuevos participan del contexto existente de la interfaz; las respuestas reservadas no se incorporan a ese contexto ni a MCP. La revisión y la respuesta humana usan las rutas de propietario existentes. No se añaden herramientas ni permisos de agente. Los formularios se reinician al cambiar de archivo personal/demo. El Laboratorio conserva su **Demostración manual** separada y explícitamente identificada; los datos originales mantienen su idioma mientras la interfaz funciona en español e inglés.
 
 Retirar un episodio elimina modelos derivados. Los ensayos reservados se purgan tras modificaciones de memoria y al iniciar; el acceso a un modelo retirado falla cerrado. La purga entre bases no es una transacción atómica y no se debe afirmar lo contrario.
 

@@ -751,7 +751,7 @@ function Workspace({
                   )}
                 </>
               )}
-              {page === "lab" && <Lab api={api} busy={busy} act={act} />}
+              {page === "lab" && <Lab key={space} api={api} busy={busy} act={act} />}
               {page === "reflection" && (
                 <Reflection
                   key={space}
