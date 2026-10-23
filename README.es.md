@@ -1,5 +1,12 @@
 # Self Hoard
 
+El historial de la demostración manual permite filtrar Todas/Pendientes/
+Respondidas y recorrer páginas más allá de las ocho pruebas recientes.
+La exportación conserva el registro completo. API nativa y MCP `list_trials`
+permiten descubrir las pruebas por páginas con el permiso `lab.run` existente;
+las predicciones pendientes siguen selladas. Este historial es independiente
+de las pruebas del modelo de decisiones aprendido. [Uso y límites](docs/MCP.md).
+
 ### ¿Qué diría? ¿Qué elegiría? ¿Por qué?
 
 **Un prototipo de investigación local para construir reflejos conversacionales de personas a partir de recuerdos, gustos, decisiones y formas de expresarse.**

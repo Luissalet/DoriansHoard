@@ -32,6 +32,12 @@ class AnswerInput(StrictModel):
     choice: str
 
 
+class TrialPageInput(StrictModel):
+    offset: int = Field(default=0, ge=0, strict=True)
+    limit: int = Field(default=25, ge=1, le=100, strict=True)
+    answered: bool | None = Field(default=None, strict=True)
+
+
 class Lab:
     def __init__(self, path):
         self.db = Store(path)
@@ -89,7 +95,17 @@ class Lab:
 
     def history(self):
         with self.db.connect() as db:
-            return [self.present(row) for row in db.execute('SELECT * FROM trials ORDER BY created_at DESC')]
+            return [self.present(row) for row in db.execute('SELECT * FROM trials ORDER BY created_at DESC,id DESC')]
+
+    def page(self, data: TrialPageInput):
+        where = '' if data.answered is None else ' WHERE choice IS ' + ('NOT NULL' if data.answered else 'NULL')
+        with self.db.connect() as db:
+            total = db.execute('SELECT count(*) FROM trials' + where).fetchone()[0]
+            rows = db.execute('SELECT * FROM trials' + where + ' ORDER BY created_at DESC,id DESC LIMIT ? OFFSET ?',
+                              (data.limit, data.offset)).fetchall()
+        return {'trials': [self.present(row) for row in rows], 'total': total, 'offset': data.offset,
+                'limit': data.limit, 'has_more': data.offset + len(rows) < total, 'answered': data.answered,
+                'method': 'manual-utility-v1', 'personal_model': False}
 
     def clear(self):
         with self.db.connect() as db:

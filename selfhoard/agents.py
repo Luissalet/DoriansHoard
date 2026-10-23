@@ -11,7 +11,7 @@ from typing import Literal
 from pydantic import Field, ValidationError, field_validator
 from .models import StrictModel
 from .store import Store, DomainError, now, uid, normalized
-from .lab import TrialInput, SCENARIOS
+from .lab import TrialInput, TrialPageInput, SCENARIOS
 
 Scope = Literal['context.read', 'evidence.read', 'updates.write', 'lab.run', 'reflection.read']
 
@@ -76,6 +76,7 @@ TOOLS = {
     'list_scenarios': ('lab.run', StrictModel),
     'start_trial': ('lab.run', TrialInput),
     'read_trial': ('lab.run', IdInput),
+    'list_trials': ('lab.run', TrialPageInput),
 }
 
 
@@ -259,4 +260,6 @@ class AgentHub(Store):
             return lab.create(data)
         if action == 'read_trial':
             return lab.get(data.id)
+        if action == 'list_trials':
+            return lab.page(data)
         raise DomainError('tool_not_allowed', 403)

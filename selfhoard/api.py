@@ -1,12 +1,12 @@
 from pathlib import Path
 import secrets
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, Query
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import JSONResponse, Response
 from fastapi.staticfiles import StaticFiles
 from .models import Archive, ClaimInput, CorrectionInput, QueryInput, ReviewInput, SourceInput
 from .store import DomainError, Store
-from .lab import Lab, SCENARIOS, TrialInput, AnswerInput
+from .lab import Lab, SCENARIOS, TrialInput, AnswerInput, TrialPageInput
 from .agents import AgentHub, GrantInput, SwitchInput, UpdateReview
 from .decisions import Decisions, DecisionVault
 from .providers import ProviderManager
@@ -224,6 +224,11 @@ def create_app(data_dir: Path, frontend_dir: Path | None = None, test_mode=False
     @app.post('/api/lab/trials')
     def trial(data: TrialInput, request: Request):
         return lab(request).create(data)
+
+    @app.get('/api/lab/trials/page')
+    def trial_page(request: Request, offset: int = Query(default=0, ge=0),
+                   limit: int = Query(default=25, ge=1, le=100), answered: bool | None = None):
+        return lab(request).page(TrialPageInput(offset=offset, limit=limit, answered=answered))
 
     @app.get('/api/lab/trials/{trial_id}')
     def read_trial(trial_id: str, request: Request):

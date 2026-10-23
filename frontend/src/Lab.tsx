@@ -101,6 +101,8 @@ function ManualLab({
     }),
     [trial, setTrial] = useState<Trial | null>(null),
     [history, setHistory] = useState<Trial[]>([]),
+    [historyOffset, setHistoryOffset] = useState(0),
+    [historyFilter, setHistoryFilter] = useState('all'),
     [clearing, setClearing] = useState(false);
   useEffect(() => {
     act(async () => {
@@ -118,6 +120,8 @@ function ManualLab({
     connection: t("Compañía", "Connection"),
   };
   const prediction = trial?.payload?.prediction;
+  const filteredHistory = history.filter(item => historyFilter === 'all' || item.answered === (historyFilter === 'answered'));
+  const pageOffset = Math.min(historyOffset, Math.max(0, Math.floor((filteredHistory.length - 1) / 8) * 8));
   const selectAnswer = (choice: string) =>
     act(async () => {
       setTrial(await api("/lab/trials/" + trial!.id + "/answer", { choice }));
@@ -481,7 +485,18 @@ function ManualLab({
             "Stored separately from personal memory. Answers do not become biography.",
           )}
         </p>
-        {history.slice(0, 8).map((h) => (
+        {history.length > 0 && <div className="section-line">
+          <label>{t('Mostrar pruebas', 'Show trials')}
+            <select aria-label={t('Mostrar pruebas', 'Show trials')} value={historyFilter} disabled={busy}
+              onChange={event => {setHistoryFilter(event.target.value); setHistoryOffset(0);}}>
+              <option value="all">{t('Todas', 'All')}</option>
+              <option value="pending">{t('Pendientes', 'Pending')}</option>
+              <option value="answered">{t('Respondidas', 'Answered')}</option>
+            </select>
+          </label>
+          <p role="status" className="small-note">{filteredHistory.length ? `${pageOffset + 1}–${Math.min(pageOffset + 8, filteredHistory.length)} / ${filteredHistory.length}` : t('No hay pruebas con este filtro.', 'No trials match this filter.')}</p>
+        </div>}
+        {filteredHistory.slice(pageOffset, pageOffset + 8).map((h) => (
           <button className="trial-row" key={h.id} onClick={() => setTrial(h)}>
             <span>
               {h.scenario.title[lang]}
@@ -497,6 +512,10 @@ function ManualLab({
             </span>
           </button>
         ))}
+        {filteredHistory.length > 8 && <nav className="section-line" aria-label={t('Páginas de pruebas', 'Trial pages')}>
+          <button className="secondary" disabled={busy || pageOffset === 0} onClick={() => setHistoryOffset(Math.max(0, pageOffset - 8))}>{t('Anteriores', 'Previous')}</button>
+          <button className="secondary" disabled={busy || pageOffset + 8 >= filteredHistory.length} onClick={() => setHistoryOffset(pageOffset + 8)}>{t('Siguientes', 'Next')}</button>
+        </nav>}
         {history.length > 0 && (
           <div className="history-delete">
             {clearing ? (

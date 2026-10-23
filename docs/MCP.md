@@ -23,9 +23,29 @@ El catálogo actual añade `read_reflection`, que requiere el permiso independie
 | `context.read` | `read_context`, `get_changes` | Declaraciones propias confirmadas vigentes y aportaciones de IA aceptadas, en categorías separadas. |
 | `evidence.read` | `read_evidence` | Fuente original por ID; puede incluir contenido no revisado. No se concede por defecto. |
 | `updates.write` | `submit_update`, `list_my_updates` | Enviar novedades pendientes y consultar solo las propias. |
-| `lab.run` | `list_scenarios`, `start_trial`, `read_trial` | Preparar/consultar actividades manuales; nunca contestar por el propietario. |
+| `lab.run` | `list_scenarios`, `start_trial`, `read_trial`, `list_trials` | Preparar/consultar actividades manuales; nunca contestar por el propietario. |
 
 Todas las llamadas verifican clave, pausa, caducidad y permiso en el servidor. El archivo personal/demo se fija al crear la credencial: una cabecera o argumento no lo cambia. No existen herramientas MCP para confirmar, rechazar, borrar, restaurar, otorgar permisos o responder pruebas. Las anotaciones MCP describen herramientas; la autorización efectiva se hace en el servidor.
+
+`list_trials(offset=0, limit=25, answered=null)` descubre los IDs de todo el
+historial de la demostración manual. Admite páginas de 1–100, `answered=true`
+para respondidas, `false` para pendientes y `null` para todas. Devuelve
+`trials`, `total`, `offset`, `limit`, `has_more` y el filtro; ordena por fecha
+descendente y por ID en empates. Avanza `offset` en `limit` mientras haya más.
+Las pendientes conservan la misma presentación sellada de `read_trial`:
+no se revelan predicción, puntuaciones, nonce ni respuesta. Las respondidas
+mantienen su resultado y comprobante. El permiso es el `lab.run` existente;
+no se cambian credenciales. No consulta la bóveda del modelo de decisiones.
+
+El propietario dispone de `GET /api/lab/trials/page?offset=0&limit=25&answered=false`
+con su sesión habitual. La ruta anterior `/api/lab/trials` conserva el registro
+completo. En **Laboratorio → Demostración manual → Tus pruebas**, el filtro
+Todas/Pendientes/Respondidas y Anteriores/Siguientes permiten abrir pruebas
+anteriores a las ocho más recientes. El filtro no cambia la prueba abierta y
+**Exportar registro** sigue incluyendo todas, también las que no están visibles.
+La web pagina su registro cargado; MCP/API paginan la consulta nativa. No hay
+snapshot duradero frente a nuevas pruebas concurrentes: vuelve a consultar
+tras cambios. Son ejemplos de una política manual, no exactitud psicológica.
 
 ## Cómo compartir conocimiento sin confundirlo
 
