@@ -41,9 +41,9 @@ button {
   border: 0;
   background: none;
 }
-button: disabled,
-input: disabled,
-select: disabled {
+button:disabled,
+input:disabled,
+select:disabled {
   cursor: not-allowed;
   opacity: 0.5;
 }
