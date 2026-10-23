@@ -122,6 +122,17 @@ def make_server(url: str, token: str):
         """Read a sealed or owner-answered trial. A sealed trial does not reveal scores."""
         return await call('read_trial', {'id': id})
 
+    @server.tool(annotations=read)
+    async def list_trials(offset: int = 0, limit: int = 25, answered: bool | None = None) -> dict:
+        """Page through manual demonstration trials, newest first (stable ID tie-break).
+
+        Requires existing lab.run in the connection's fixed personal/demo space.
+        Use answered=true for results, false for pending, null for all. Limit 1–100;
+        advance offset by limit while has_more. Pending trials hide prediction/scores.
+        These are manual-policy demonstrations, not learned decision-model trials.
+        """
+        return await call('list_trials', {'offset': offset, 'limit': limit, 'answered': answered})
+
     return server
 
 

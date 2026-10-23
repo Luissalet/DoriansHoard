@@ -1,5 +1,12 @@
 # Self Hoard
 
+The manual laboratory history now has All/Pending/Answered filters and pages
+that reach beyond the latest eight trials. Export still contains the full
+record. The native API and MCP `list_trials` expose paged discovery using the
+existing `lab.run` permission; pending predictions stay sealed. This is the
+manual demonstration history, separate from learned decision-model trials.
+[Protocol and limits](docs/MCP.md).
+
 ### What would they say? What would they choose? Why?
 
 **A local-first research prototype for conversational reflections of people — built from their memories, preferences, decisions and ways of speaking.**
