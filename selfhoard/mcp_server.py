@@ -133,6 +133,14 @@ def make_server(url: str, token: str):
         """
         return await call('list_trials', {'offset': offset, 'limit': limit, 'answered': answered})
 
+    try:  # the skills this app carries, for the agent that connects
+        try:
+            from selfhoard.hoard_link import skills as family_skills
+        except ImportError:
+            from hoard_link import skills as family_skills
+        family_skills.attach(server, 'dorian', root=__file__)
+    except Exception:  # noqa: BLE001 - the bridge works without them
+        pass
     return server
 
 
