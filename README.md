@@ -183,3 +183,7 @@ The [implementation plan](docs/IMPLEMENTATION_PLAN.md) tracks family readers, co
 ## License
 
 A license for the original project code has not been selected yet. Public availability is not an additional license grant. Dependencies retain their respective licenses.
+
+## Skills for the agents that connect
+
+This app carries procedures from the skill library of the family's workspace for the agents that connect to it: `personal-context-consult`, `pretask-interview`. They are named in what an agent reads on connecting, read with `skills_list` and `skill_read`, searched and assigned with `skills_library` and `skills_assign`, and offered as prompts. The person chooses them on the skills page (`/api/agent/skills/page`) or in the hub's Skills tab; the `skills` block of `faustus-plugin.json` holds what the app asks for by default.
