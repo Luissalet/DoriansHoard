@@ -1,87 +1,102 @@
-# Self Hoard
+# Dorian's Hoard
 
-El historial de la demostración manual permite filtrar Todas/Pendientes/
-Respondidas y recorrer páginas más allá de las ocho pruebas recientes.
-La exportación conserva el registro completo. API nativa y MCP `list_trials`
-permiten descubrir las pruebas por páginas con el permiso `lab.run` existente;
-las predicciones pendientes siguen selladas. Este historial es independiente
-de las pruebas del modelo de decisiones aprendido. [Uso y límites](docs/MCP.md).
+Prototipo de investigación local que construye reflejos conversacionales de personas a partir de sus recuerdos, gustos, decisiones y formas de expresarse. La aplicación y sus iniciadores se llaman Self Hoard.
 
-### ¿Qué diría? ¿Qué elegiría? ¿Por qué?
+[Read in English](README.md)
 
-**Un prototipo de investigación local para construir reflejos conversacionales de personas a partir de recuerdos, gustos, decisiones y formas de expresarse.**
+![Una elección generada, con incertidumbre y recuerdos de apoyo](docs/media/reflection-demo.png)
 
-[English](README.md) · [Funcionamiento y límites](docs/REFLECTION.md) · [Conectar una IA](docs/MCP.md) · [Portfolio](https://luissalet.github.io/Portfolio/#projects)
+*Aplicación real, persona ficticia y respuesta real de un modelo local. Muestra una integración, no la fidelidad a una personalidad.*
 
-![Conversación de Self Hoard con una persona ficticia y recuerdos de apoyo](docs/media/reflection-demo.png)
+## Qué es
 
-*Aplicación real, persona sintética y respuesta real de Ollama. La interfaz admite español e inglés; las fuentes conservan su idioma. No es una medición de fidelidad personal.*
+La idea es la continuidad personal: una familia podría algún día pedirle a un reflejo de su padre o madre una anécdota, un consejo o una opinión sobre algo nuevo. Para eso hay que conservar lo que le importaba, cómo sopesaba las alternativas, las excepciones a sus gustos y las frases que usaba con cada persona.
 
-## Conservar una forma de ser
+Self Hoard hace inspeccionables esos ingredientes. Un recuerdo conserva su fuente; una interpretación sigue siendo una interpretación; una muletilla conserva su contexto y frecuencia; una respuesta generada sigue siendo generada y nunca se incorpora sola a la biografía. Es un prototipo para un solo propietario en Windows y no pretende reproducir la conciencia ni un cerebro humano.
 
-La idea es que una familia pueda algún día conversar con un reflejo de su padre o madre: pedir consejo, recordar una anécdota o imaginar su respuesta ante algo nuevo. Importan los valores, las preferencias, las excepciones, la forma de analizar y también las palabras familiares, las muletillas y el humor.
+## Qué hace
 
-Self Hoard conserva esos elementos con fuentes y revisión. Un relato familiar mantiene su atribución. Una interpretación de IA no se convierte en palabras originales. Una respuesta generada no se incorpora automáticamente a la biografía.
+**De la evidencia a la respuesta**
+1. **Conservar las palabras.** Añade fuentes y fichas de recuerdo con extractos literales y atribución. Las afirmaciones del propietario, los recuerdos familiares y las interpretaciones de una IA siguen siendo distinguibles.
+2. **Revisar a la persona representada.** Confirma recuerdos, criterios y ejemplos de expresión. Las muletillas, el humor, el ritmo y los gestos descritos pueden indicar relación, idioma, época, frecuencia, cuándo usarlos y cuándo evitarlos.
+3. **Hacer una pregunta situada.** «¿Le gustaría esto?», «¿Qué opción elegiría?», «¿Cómo lo analizaría?» o «Cuéntame una anécdota».
+4. **Inspeccionar la entrada exacta del modelo.** Antes de enviar se previsualizan la evidencia, las instrucciones, el destino y los límites configurados. La inferencia local es la opción por defecto.
+5. **Leer una simulación atribuida.** Las respuestas conservan citas; las predicciones y análisis deben expresar incertidumbre. Retirar una evidencia invalida el contexto y el diálogo que dependen de ella.
 
-Esta versión funciona como prototipo para un propietario en Windows. El acceso familiar, el cifrado integral y la validación longitudinal siguen pendientes. No reproduce un cerebro ni afirma conservar conciencia.
+**Áreas**
 
-## Qué puedes hacer ahora
+| Área | Qué ofrece | Límite |
+| --- | --- | --- |
+| Archivo personal | Fuentes en SQLite, citas literales, revisión, atribución, invalidación de dependencias, exportación JSON/Markdown | Recuperación léxica literal; la exportación del archivo no es una copia completa del reflejo |
+| Reflejo | Retrato, fichas de recuerdo y de expresión, vista previa exacta de la entrada, conversación con citas, interfaz en español e inglés | Sin ajuste fino de un modelo personal, extracción de estilo de audio ni clonación de voz |
+| Conexiones de modelo | Ollama, servidores locales compatibles con OpenAI, adaptadores OpenAI Responses y Anthropic Messages | Los adaptadores en la nube aún no se han verificado con credenciales |
+| Interoperabilidad con IA | Herramientas MCP con lecturas acotadas, sondeo de cambios, bandeja de aportaciones atribuidas, caducidad y revocación | Las IA cliente no pueden aprobar evidencias ni concederse acceso |
+| Laboratorio de decisiones | Editor bilingüe de ejemplos, revisión explícita, ajuste local de preferencias por pares, pruebas ciegas selladas, comparación de resultados | Valoraciones de rasgos aportadas por una persona; estimaciones sin calibrar; sin fidelidad de personalidad validada |
+| Laboratorio visual | Escenarios de actividad, prioridades manuales, predicciones ocultas, comparaciones reveladas | Demostración con política manual, no un gemelo digital aprendido |
 
-- Preparar un retrato y revisar recuerdos, criterios y ejemplos literales de expresión, con frecuencia, relación, idioma, época y situaciones en las que encajan o deben evitarse.
-- Preguntar qué diría, qué le gustaría, qué elegiría o cómo analizaría una situación. Revisar los datos exactos y el destino antes de enviarlos.
-- Consultar respuestas con citas e incertidumbre. Retirar evidencia e invalidar el contexto y diálogo dependientes.
-- Conectar otras IA mediante diez herramientas MCP: permisos, consulta de novedades, aportaciones atribuidas a una bandeja, caducidad y revocación.
-- Usar **Laboratorio → Tus decisiones** para guardar alternativas y criterios valorados de 0 a 5, revisar ejemplos propios y ajustar el modelo local existente con al menos tres elecciones confirmadas del mismo ámbito. Preparar una situación nueva, sellar la predicción, responder antes de revelarla y comparar el resultado con la referencia uniforme. Las pruebas se pueden reabrir y descargar en JSON. La **Demostración manual** sigue disponible en el mismo Laboratorio; el ajuste estadístico funciona en CPU sin conectar un LLM.
+**Laboratorio de decisiones.** En **Laboratorio → Tus decisiones**, describe alternativas y valora criterios compartidos de 0 a 5, revisa tus ejemplos y ajusta un modelo local con al menos tres elecciones confirmadas del mismo ámbito (el modelo estadístico pequeño existente, en CPU, sin conexión a ningún LLM). Prepara una situación nueva, sella la predicción y la versión del modelo, registra tu propia elección y revela la comparación: acuerdo de elección y puntuación de Brier frente a una referencia uniforme, más una valoración de cuánto coinciden los motivos. Las etiquetas reservadas se excluyen de la recuperación conversacional. Las pruebas guardadas se pueden reabrir y descargar en JSON. La **Demostración manual** sigue disponible junto a este flujo, con filtros Todas/Pendientes/Respondidas e historial paginado (las predicciones pendientes siguen selladas). Una puntuación de Brier menor es mejor para ese caso; no establece calibración ni fidelidad a una persona.
 
-Ollama y servidores locales compatibles son opciones de inferencia. También existen adaptadores OpenAI y Anthropic, aún sin pruebas con credenciales reales. La recuperación usa coincidencias literales; no hay entrenamiento de un LLM personal ni clonación de voz.
+La pregunta de investigación que hay detrás: ¿puede un reflejo conservar las decisiones, explicaciones y expresión de una persona haciendo inspeccionables su evidencia y su incertidumbre? Sonar familiar no prueba que se elija con acierto, y elegir bien no demuestra que el motivo declarado sea el de la persona. Las [notas de neurociencia](docs/Neurociencia_y_mundos_del_gemelo.md) examinan conectomas y simulación corporizada como inspiración para probar el comportamiento; la app no ejecuta esos simuladores.
 
-## Para investigadores y equipos de ingeniería
+## Cómo arrancarlo
 
-**¿Puede un reflejo conservar decisiones, motivos y expresión sin perder la trazabilidad ni ocultar la incertidumbre?** Son objetivos distintos que necesitan evaluaciones separadas.
-
-La API experimental sella una predicción antes de conocer la respuesta humana, excluye las etiquetas reservadas del contexto conversacional y calcula acuerdo y Brier frente a una referencia uniforme. Los motivos se valoran manualmente. Los siguientes pasos incluyen más baselines, evaluación humana de estilo y estudios longitudinales.
-
-Las [notas de neurociencia](docs/Neurociencia_y_mundos_del_gemelo.md) investigan conectomas y simulaciones como FlyWire y NeuroMechFly como inspiración para evaluar comportamiento. Self Hoard no ejecuta esas simulaciones.
-
-**Verificado el 12 de septiembre de 2026:** 61 pruebas Python, cinco recorridos Edge con procesos MCP reales, compilación y una prueba real Ollama con persona sintética, dos citas e incertidumbre. Son comprobaciones de software, no validación psicológica. [Registro de validación](docs/VALIDATION.md).
-
-## Abrir en Windows
-
-Necesitas Python 3.11+, Node.js 22 LTS con npm y Git. La primera instalación descarga dependencias; los modelos se configuran aparte.
+Requisitos: Python 3.11+, Node.js 22 LTS con npm y Git. La primera ejecución descarga dependencias. Las conversaciones necesitan además una conexión a un modelo; los pesos no se incluyen.
 
 ```powershell
-git clone https://github.com/Luissalet/SelfHoard.git
-cd SelfHoard
 & '.\Iniciar Self Hoard.cmd'
 ```
 
-El iniciador prepara el entorno y abre **http://127.0.0.1:8741**. Elige el idioma y explora el ejemplo sintético separado de tu archivo. Configura **El reflejo → Retrato**, **Recuerdos y expresión** y **Modelo**. **Detener Self Hoard.cmd** detiene el servidor.
+El iniciador prepara Python, compila la interfaz si falta y abre **http://127.0.0.1:8741**. Elige English o Español en la cabecera. **Ejemplo sintético / Synthetic example** usa datos de demostración separados. Prepara un retrato y recuerdos revisados y configura **El reflejo → Modelo**. **Detener Self Hoard.cmd** detiene el servidor.
 
-El [README en inglés](README.md#run-locally-on-windows) incluye actualización, arquitectura y comandos para reproducir las pruebas.
+Tras actualizar el código, refresca dependencias y recompila antes de reiniciar:
 
-## Asistente de Faustus
+```powershell
+.\.venv\Scripts\python.exe -m pip install -r requirements-lock.txt
+Push-Location frontend
+npm.cmd ci
+npm.cmd run build
+Pop-Location
+```
 
-Con el lanzador compartido de Hoard Link instalado, la app muestra el panel de Faustus de la familia (un botón flotante). La conversación, el modelo y las herramientas viven en Faustus; esta app solo le dice al panel qué hay abierto.
+## Conectar otras IA y Faustus
 
-- **Contexto por vista.** La app no tiene rutas en la URL, así que publica la página, el espacio (la cabecera `X-Hoard-Space`), la afirmación, la fuente y la sección del reflejo abiertos. Los objetos guardados se referencian como `claim` (título resumido a 80 caracteres, estado, tipo, sujeto e id de fuente), `source` (título, tipo y referencias a todas sus afirmaciones), `persona` (nombre, estado vital, consentimiento) y `conversation` (título y número de turnos). Estas referencias no incluyen los textos completos guardados, la cita que respalda una afirmación, claves de proveedores ni tokens de conexión. Los formularios de creación no inventan objetos; sus campos pendientes se envían por separado.
-- **Campos sin guardar.** El panel los pide con el evento de ventana `dorian:context-request`. Los formularios `persona-form`, `claim-correction`, `claim-new`, `source-new`, `card-new` y `reflection-question` responden con los valores completos de los campos que difieren de lo cargado. La página y el espacio capturados se conservan también cuando la sesión caduca y una petición necesita reintentarse después de cambiar de vista.
-- **Refresco.** Cuando el asistente termina un turno, el archivo se recarga en el sitio (`hoard:copilot-turn-end` / `window.hoardCopilot.onTurnEnd`) y los formularios abiertos y los resultados de búsqueda se quedan como están.
-- **Guardado.** El formulario del retrato envía solo los campos cambiados al nuevo `PATCH /api/reflection/persona`, que fusiona solo los campos presentes en el cuerpo dentro de la misma transacción que lee el retrato guardado. El diálogo derivado se olvida solo si algo cambió de verdad; los valores no válidos dejan el retrato intacto.
-- **Montaje.** `create_app` llama a `install_copilot(app, 'dorian', data_dir)` antes del comodín estático, así que el lanzador se añade a la página de la app y `faustus-plugin.json` declara `x-family.copilot`. El script del lanzador se sirve sin sesión (la página lo pide antes de que exista la cookie); el relevo del panel (`/api/copilot/proxy`) sigue la misma regla de la cabecera `X-Hoard-Request` que el resto de escrituras (el lanzador compartido envía la cabecera), la lista de rutas públicas viene de la biblioteca compartida, y la política de seguridad de contenido no tiene `'unsafe-inline'` (el lanzador estiliza su panel con una hoja de estilos construida); `font-src` conserva `data:` solo porque la hoja de estilos propia de Dorian incrusta su fuente.
-- **Pruebas.** `node --test frontend/copilot-context.test.mjs` y `python -m pytest tests/test_partial_updates.py`.
+Un cliente MCP puede leer el contexto permitido, comprobar cambios, aportar conocimiento atribuido a una bandeja o ejecutar una prueba de actividad permitida. La persona propietaria controla permisos, revisión, pausa, caducidad y revocación en **Conexiones de IA**; leer el reflejo requiere su propio permiso. La aplicación entrega la configuración del cliente; mantén su credencial en privado. La detección de cambios usa sondeo, no notificaciones push. Véase [configuración MCP, herramientas y límites de confianza](docs/MCP.md).
 
-## Datos y estado del proyecto
+**Asistente de Faustus.** Con el lanzador compartido de Hoard Link instalado, la app muestra el panel de Faustus de la familia (un botón flotante). La conversación, el modelo y las herramientas viven en Faustus; esta app solo le dice al panel qué hay abierto.
+- Contexto por vista: como la app no tiene rutas en la URL, publica la página, el espacio (la cabecera `X-Hoard-Space`), la afirmación, la fuente y la sección del reflejo abiertos. Los objetos guardados se referencian como `claim` (título resumido a 80 caracteres, estado, tipo, sujeto, id de fuente), `source`, `persona` (nombre, estado vital, consentimiento) y `conversation` (título, número de turnos), nunca con textos guardados completos, citas, claves de proveedor ni tokens de conexión.
+- Los campos sin guardar se devuelven con el evento de ventana `dorian:context-request` desde los formularios `persona-form`, `claim-correction`, `claim-new`, `source-new`, `card-new` y `reflection-question`.
+- Cuando el asistente termina un turno, el archivo se recarga en el sitio y los formularios abiertos y los resultados de búsqueda se quedan como están. El formulario del retrato envía solo los campos cambiados a `PATCH /api/reflection/persona`, que los fusiona en la misma transacción que lee el retrato guardado; el diálogo derivado se olvida solo si algo cambió de verdad.
+- `create_app` instala el copiloto antes del comodín estático y `faustus-plugin.json` declara `x-family.copilot`. El relevo (`/api/copilot/proxy`) sigue la misma regla `X-Hoard-Request` que el resto de escrituras, y la política de seguridad de contenido no tiene `'unsafe-inline'`.
 
-Los datos se guardan en `data/`, excluido de Git. Las claves usan DPAPI de Windows; la base completa aún no está cifrada ni existe autenticación entre usuarios de la misma cuenta. Revocar una IA impide futuras consultas, pero no elimina copias ya guardadas por ese cliente. No hay telemetría; el contexto aprobado se envía al modelo elegido.
+**Skills.** La app lleva `personal-context-consult` y `pretask-interview` de la biblioteca de skills de la familia para los agentes que se conectan, que se leen con `skills_list` y `skill_read` y se asignan en la página de skills (`/api/agent/skills/page`) o en la pestaña Skills del hub.
 
-Las exportaciones del archivo no son una copia completa del reflejo. El [plan de implementación](docs/IMPLEMENTATION_PLAN.md) recoge lectores familiares, copias protegidas, recuperación semántica y evaluación longitudinal, entre otros pendientes.
+## Datos y límites de confianza
 
-Creado por [Luis Salete](https://github.com/Luissalet). Para colaborar en evaluación, preferencias, interacción persona-IA o legado digital, [abre una propuesta](https://github.com/Luissalet/SelfHoard/issues) con un caso sintético. No publiques biografías privadas ni credenciales.
+Los datos personales viven en el directorio `data/`, excluido de Git y separado de la demostración. No hay telemetría. Las peticiones al modelo envían el contexto aprobado al destino elegido; los clientes MCP externos tienen sus propios proveedores y retención. Los destinos locales son solo de bucle local, los remotos son fijos, y no hay reintentos automáticos, llamadas a herramientas ni proveedores de reserva.
+
+Las claves de proveedores en la nube se protegen con DPAPI de Windows. **El archivo completo no está cifrado y la aplicación no autentica a distintos usuarios de la misma cuenta de Windows.** Las comprobaciones de origen locales no son un sandbox del sistema operativo. Revocar bloquea lecturas futuras; no puede borrar las copias que otro cliente ya conservó. Este prototipo es para uso local, no para alojamiento público multiusuario. Pendiente: acceso de lectores familiares, copias protegidas completas, recuperación semántica y evaluación longitudinal (véase el [plan de implementación](docs/IMPLEMENTATION_PLAN.md)).
+
+## Estructura del proyecto
+
+| Ruta | Contenido |
+|---|---|
+| `selfhoard/` | backend: `store.py`, `reflection.py` (ciclo de vida de la evidencia), `providers.py` (frontera con el modelo), `agents.py` y `mcp_server.py` (frontera con los agentes), `decisions.py` (evaluación), `lab.py`, `demo.py`, API FastAPI en `api.py` |
+| `frontend/` | interfaz en React 19 y TypeScript con fuentes servidas en local |
+| `docs/` | `ARCHITECTURE.md`, `REFLECTION.md`, `MCP.md`, `VALIDATION.md`, `IMPLEMENTATION_PLAN.md`, notas |
+| `scripts/` | scripts auxiliares, incluida la comprobación opcional con un modelo real |
+| `tests/` | pruebas de Python |
+| `faustus-plugin.json` | manifiesto del plugin |
+| `data/` | datos personales (no versionados) |
+
+## Pruebas
+
+```powershell
+.\.venv\Scripts\python.exe -m pytest -q
+.\.venv\Scripts\python.exe -m pip check
+```
+
+Las pruebas de navegador necesitan un servidor de pruebas aparte (`python -m selfhoard --port 8742 --data-dir <carpeta temporal>`) y Microsoft Edge, y después `npm.cmd run test:e2e` en `frontend`. Una comprobación opcional contra un modelo local real es `scripts/smoke_reflection_local.py --model <nombre>`. Estas pruebas verifican software e integraciones, no validez psicológica ni exactitud con personas reales; véase [docs/VALIDATION.md](docs/VALIDATION.md).
 
 ## Licencia
 
-La licencia del código original está pendiente de elección. La publicación del repositorio no añade una licencia de reutilización. Las dependencias conservan sus licencias.
-
-## Skills para los agentes que se conectan
-
-Esta app lleva procedimientos de la biblioteca de skills del espacio de trabajo de la familia para los agentes que se conectan: `personal-context-consult`, `pretask-interview`. Aparecen en lo que el agente lee al conectarse, se leen con `skills_list` y `skill_read`, se buscan y asignan con `skills_library` y `skills_assign`, y se ofrecen como prompts. Se eligen en la página de skills (`/api/agent/skills/page`) o en la pestaña Skills del hub; el bloque `skills` de `faustus-plugin.json` guarda lo que la app pide por defecto.
+Aún no se ha elegido una licencia para el código original del proyecto; que el repositorio sea público no concede ninguna licencia. Las dependencias conservan sus respectivas licencias.
