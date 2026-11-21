@@ -6,7 +6,7 @@ const root = resolve("..");
 
 test("real MCP to owner UI to second AI, controls and blind lab", async ({
   page,
-}) => {
+}, testInfo) => {
   test.setTimeout(120000);
   const errors: string[] = [];
   page.on("pageerror", (e) => errors.push(e.message));
@@ -51,7 +51,13 @@ test("real MCP to owner UI to second AI, controls and blind lab", async ({
     return r.structuredContent ?? JSON.parse(r.content[0].text);
   };
   const discovered = mcp("__list_tools__");
-  expect(discovered.tools).toHaveLength(10);
+  const expectedTools: string[] = JSON.parse(
+    execFileSync(resolve(root, ".venv/Scripts/python.exe"), [
+      "-c",
+      "import json; from selfhoard.agents import TOOLS; print(json.dumps(sorted(TOOLS)))",
+    ], { cwd: root, encoding: "utf8", windowsHide: true }),
+  );
+  expect(discovered.tools.map((tool: { name: string }) => tool.name).sort()).toEqual(expectedTools);
   expect(
     discovered.tools.find((t: any) => t.name === "read_context").annotations
       .readOnlyHint,
@@ -94,7 +100,7 @@ test("real MCP to owner UI to second AI, controls and blind lab", async ({
     window.scrollTo(0, 0);
   });
   await page.screenshot({
-    path: resolve(root, ".impeccable/review/agents-desktop-es.png"),
+    path: testInfo.outputPath("agents-desktop-es.png"),
     fullPage: true,
   });
   await page
@@ -146,6 +152,7 @@ test("real MCP to owner UI to second AI, controls and blind lab", async ({
     .getByRole("combobox", { name: "Language / Idioma" })
     .selectOption("en");
   await page.getByRole("button", { name: "Laboratory", exact: true }).click();
+  await page.getByRole("button", { name: "Manual demonstration", exact: true }).click();
   await page.locator(".trial-row").first().click();
   await page
     .getByRole("button", { name: "Walk in the garden", exact: true })
@@ -166,7 +173,7 @@ test("real MCP to owner UI to second AI, controls and blind lab", async ({
   await page.setViewportSize({ width: 390, height: 844 });
   await page.evaluate(() => window.scrollTo(0, 0));
   await page.screenshot({
-    path: resolve(root, ".impeccable/review/agents-mobile-en.png"),
+    path: testInfo.outputPath("agents-mobile-en.png"),
     fullPage: true,
   });
   expect(
