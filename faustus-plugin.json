@@ -64,6 +64,16 @@
     "optional_env": []
   },
   "x-family": {
+    "isolated_instance": {
+      "argv": [
+        "-m",
+        "selfhoard",
+        "--port",
+        "{PORT}",
+        "--data-dir",
+        "{DATA_DIR}"
+      ]
+    },
     "copilot": true,
     "agent_contract": false,
     "stack": "python",
